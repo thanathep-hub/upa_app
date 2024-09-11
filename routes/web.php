@@ -18,3 +18,6 @@ Route::get('/', function () {
 });
 
 Route::post('/login', 'AuthController@login');
+Route::get('/wel', function () {
+    return view('welcome');
+});

@@ -61,10 +61,12 @@
                         <h5 style="color:#0094ff;font-weight: bold;">เข้าสู่ระบบด้วย ERP</h5>
                     </div>
                     <div class="mb-3">
-                        <input type="text" class="form-control" id="user" placeholder="รหัสผู้ใช้">
+                        <input type="text" class="form-control" id="user" name="username"
+                            placeholder="รหัสผู้ใช้">
                     </div>
                     <div class="mb-3">
-                        <input type="password" class="form-control" id="password" placeholder="รหัสผ่าน">
+                        <input type="password" class="form-control" name="password" id="password"
+                            placeholder="รหัสผ่าน">
                     </div>
                     <div class="feedback mb-3 text-end">
                         <a href="#" class="feedback" style="font-size: 14px;">หากพบปัญหาติดต่อฝ่ายไอที</a>

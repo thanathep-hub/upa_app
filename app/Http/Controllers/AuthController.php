@@ -8,8 +8,15 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        if ($request->input("user") != '' && $request->input("password") != '') {
-            return redirect('/pass');
+        $request->validate([
+            'username' => 'required',
+            'password' => 'required',
+        ]);
+
+        if ($request->input("username") != '' && $request->input("password") != '') {
+            return redirect('/wel');
+        } else {
+            return back()->withErrors(['msg' => 'รหัสผู้ใช้หรือรหัสผ่านไม่ถูกต้อง']);
         }
     }
 }
