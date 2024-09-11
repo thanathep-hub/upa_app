@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Session;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,11 +13,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('auth.login');
+
+Route::get('/login', function () {
+    if (Session::has('user')) {
+        return redirect('/');
+    } else {
+        return view('auth.login');
+    }
 });
 
+
 Route::post('/login', 'AuthController@login');
-Route::get('/wel', function () {
-    return view('welcome');
+
+Route::group(['middleware' => 'CheckLogin'], function () {
+    Route::get('/', 'UPAController@show')->middleware('admin');
+});
+
+
+Route::get('/logout', 'AuthController@userLogout');
+Route::get('/error/access-denied', function () {
+    return view('error.access-denied');
 });

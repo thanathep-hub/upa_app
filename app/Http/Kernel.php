@@ -45,6 +45,9 @@ class Kernel extends HttpKernel
         'CheckLogin' => [
             \App\Http\Middleware\CheckAuth::class,
         ],
+        'admin' => [
+            \App\Http\Middleware\Admin::class,
+        ],
     ];
 
     /**

@@ -73,7 +73,8 @@
 
         <div class="content">
             <div class="title m-b-md">
-                User
+                <img src="{{ asset('auth/access-denied.png') }}" alt="" height="200px">
+                <h2>คุณไม่มีสิทธิ์เข้าถึงหน้านี้</h2>
             </div>
         </div>
     </div>
