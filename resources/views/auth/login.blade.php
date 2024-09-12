@@ -43,7 +43,8 @@
         }
 
         .feedback {
-            color: #01296f !important;
+            color: #003fb1 !important;
+            font-weight: 500;
         }
     </style>
 </head>
@@ -58,7 +59,7 @@
                 <form method="post" action="/login">
                     @csrf
                     <div class="title mb-3 border-bottom">
-                        <h5 style="color:#0094ff;font-weight: bold;">เข้าสู่ระบบด้วย ERP</h5>
+                        <h5 style="color:#003fb1;font-weight: bold;">เข้าสู่ระบบด้วย ERP</h5>
                     </div>
                     <div class="mb-3">
                         <input type="text" class="form-control" id="user" name="username"

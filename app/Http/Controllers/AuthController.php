@@ -28,7 +28,7 @@ class AuthController extends Controller
             $login = collect(DB::select($query))->first();
             if ($login) {
                 session()->put("user", $login);
-
+                session()->put("idComp", $login->idCompb);
                 if ($login->idPositions === '17' || $login->idPositions === '15') {
                     session()->put("role", "admin");
                 }

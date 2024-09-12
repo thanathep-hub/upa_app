@@ -34,3 +34,5 @@ Route::get('/logout', 'AuthController@userLogout');
 Route::get('/error/access-denied', function () {
     return view('error.access-denied');
 });
+
+Route::get('/test/{idComp}/{year}', 'UPAController@cost');
