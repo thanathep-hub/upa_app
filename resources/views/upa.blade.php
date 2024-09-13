@@ -5,7 +5,7 @@
         * {
             font-family: "Kanit", sans-serif;
             font-size: 14px;
-            font-weight: 500;
+            /* font-weight: 500; */
             color: #000000;
         }
 
@@ -20,6 +20,22 @@
         td {
             text-align: end;
             width: 124.5px;
+            font-weight: 400;
+        }
+
+        button.btn.btn-secondary.dropdown-toggle {
+            border: 1px solid #e5e7eb;
+            height: 36px;
+            width: 100px;
+            background-color: #fff;
+            color: #000;
+        }
+
+        .dropdown-menu {
+            --bs-dropdown-min-width: 100px;
+            border: none;
+            background-color: #e2e0ff;
+            color: #fff;
         }
 
         .trr {
@@ -70,7 +86,7 @@
             <div>
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false" style="background-color: #f3f4f6;color:#374151;border:none;">
+                        aria-expanded="false">
                         ปี 2567
                     </button>
                     <ul class="dropdown-menu">
@@ -81,15 +97,15 @@
         </div>
         <div class="d-flex">
             <div class="w-160">
-                <span>ค่าใช้จ่าย</span>
+                <span style="font-weight: 500;">ค่าใช้จ่าย</span>
                 <h5 style="color: #eab308;font-family: 'Kanit', sans-serif;" id="expenses">00.00</h5>
             </div>
             <div class="w-160">
-                <span>ค้างจ่าย</span>
+                <span style="font-weight: 500;">ค้างจ่าย</span>
                 <h5 style="color: #ef4444;" id="pending">00.00</h5>
             </div>
             <div class="w-160">
-                <span>จ่ายไปแล้ว</span>
+                <span style="font-weight: 500;">จ่ายไปแล้ว</span>
                 <h5 style="color: #22c55e;" id="paid">00.00</h5>
             </div>
         </div>
@@ -361,19 +377,6 @@
         $(document).ready(function() {
             fetch_upa_mt();
             fetch_upa_dt();
-
-            if ({{ session('GroupSidebar') }} === 1) {
-                document.getElementById("av-group").classList.add("show");
-                console.log("session log", {{ session('GroupSidebar') }});
-            }
-            if ({{ session('GroupSidebar') }} === 2) {
-                document.getElementById("gr-group").classList.add("show");
-                console.log("session log", 2);
-            }
-            if ({{ session('GroupSidebar') }} === 3) {
-                document.getElementById("fl-group").classList.add("show");
-                console.log("session log", 3);
-            }
         });
 
         function fetch_upa_dt() {
@@ -500,8 +503,6 @@
                 }
             });
         }
-
-
 
         function formatNumber(num) {
             return num ? parseFloat(num).toLocaleString(undefined, {

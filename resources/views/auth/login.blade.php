@@ -38,8 +38,8 @@
         }
 
         .btn-login {
-            background-color: #0094ff;
-            border: #0094ff;
+            background-color: #4F46E5;
+            border: #4F46E5;
         }
 
         .feedback {

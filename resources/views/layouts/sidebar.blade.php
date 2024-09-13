@@ -94,7 +94,8 @@
      }
 
      .active {
-         box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+         box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+         /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
      }
  </style>
  <!-- Sidebar -->
@@ -105,7 +106,8 @@
      <!-- Sidebar Navigation -->
      <ul class="sidebar-nav p-0">
          <li class="sidebar-header">
-             ค่าใช้จ่าย {{ session('GroupSidebar') }}
+             <span style="font-size: 12px;">ค่าใช้จ่าย</span>
+
          </li>
          <li class="sidebar-item">
              <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
@@ -114,9 +116,6 @@
                  <span>AV Group</span>
              </a>
              <ul class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar" id="av-group">
-                 <li class="sidebar-item m-2 active" style="background-color: #fff;border-radius:12px;">
-                     <a href="#" class="sidebar-link">GR</a>
-                 </li>
              </ul>
          </li>
          <li class="sidebar-item">
@@ -126,9 +125,6 @@
                  <span>GR Group</span>
              </a>
              <ul class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar" id="gr-group">
-                 <li class="sidebar-item m-2 active" style="background-color: #fff;border-radius:12px;">
-                     <a href="#" class="sidebar-link">GR</a>
-                 </li>
              </ul>
          </li>
          <li class="sidebar-item">
@@ -138,9 +134,6 @@
                  <span>FL Group</span>
              </a>
              <ul class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar" id="fl-group">
-                 <li class="sidebar-item m-2 active" style="background-color: #fff;border-radius:12px;">
-                     <a href="#" class="sidebar-link">GR</a>
-                 </li>
              </ul>
          </li>
      </ul>
@@ -155,7 +148,25 @@
  <!-- Sidebar Ends -->
  @push('script')
      <script>
+         var groupComp = {{ session('GroupSidebar') }};
+
+
+         var comSelect = {{ session('idComp') }};
+         console.log(comSelect);
          $(document).ready(function() {
+
+             if (groupComp === 1) {
+                 document.getElementById("av-group").classList.add("show");
+                 console.log("session log", 1);
+             }
+             if (groupComp === 2) {
+                 document.getElementById("gr-group").classList.add("show");
+                 console.log("session log", 2);
+             }
+             if (groupComp === 3) {
+                 document.getElementById("fl-group").classList.add("show");
+                 console.log("session log", 3);
+             }
              fetch_comp_session();
              const toggler = document.querySelector(".toggler-btn");
              toggler.addEventListener("click", function() {
@@ -178,13 +189,15 @@
                              if (comp.length > 0) {
                                  comp.forEach((item, index) => {
                                      let row = `
-                                        <li class="sidebar-item m-2" style="background-color: #fff;border-radius:12px;">
+                                        <li class="sidebar-item m-2 ${item.idcomp == comSelect ? 'active' : ''}" style="border-radius:12px;">
                                             <a href="/set/session/comp/1/${item.idcomp}" class="sidebar-link">${item.CompName || ''}</a>
                                         </li>
                                     `;
                                      setTimeout(function() {
                                          av.append(row);
                                      }, index * 50);
+                                     console.log('item.idComp:', item.idcomp);
+                                     console.log('comSelect:', comSelect);
                                  });
                              } else {
                                  av.append(``);
@@ -208,7 +221,7 @@
                              if (comp.length > 0) {
                                  comp.forEach((item, index) => {
                                      let row = `
-                                        <li class="sidebar-item m-2" style="background-color: #fff;border-radius:12px;">
+                                        <li class="sidebar-item m-2 ${item.idcomp == comSelect ? 'active' : ''}" style="border-radius:12px;">
                                             <a href="/set/session/comp/2/${item.idcomp}" class="sidebar-link">${item.CompName || ''}</a>
                                         </li>
                                     `;
@@ -238,7 +251,7 @@
                              if (comp.length > 0) {
                                  comp.forEach((item, index) => {
                                      let row = `
-                                        <li class="sidebar-item m-2" style="background-color: #fff;border-radius:12px;">
+                                        <li class="sidebar-item m-2 ${item.idcomp == comSelect ? 'active' : ''}" style="border-radius:12px;">
                                             <a href="/set/session/comp/3/${item.idcomp}" class="sidebar-link">${item.CompName || ''}</a>
                                         </li>
                                     `;

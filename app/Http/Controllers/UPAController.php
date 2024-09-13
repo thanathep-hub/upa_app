@@ -45,8 +45,8 @@ class UPAController extends Controller
     public function compSessionSet($idSidebar, $idComp)
     {
         session(['idComp' => $idComp]);
-        session(["GroupSidebar", $idSidebar]);
-        return redirect('/')->with('message', 'Session set successfully');
+        session(['GroupSidebar' => $idSidebar]);
+        return redirect('/');
     }
     public function show()
     {
