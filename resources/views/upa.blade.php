@@ -361,6 +361,19 @@
         $(document).ready(function() {
             fetch_upa_mt();
             fetch_upa_dt();
+
+            if ({{ session('GroupSidebar') }} === 1) {
+                document.getElementById("av-group").classList.add("show");
+                console.log("session log", {{ session('GroupSidebar') }});
+            }
+            if ({{ session('GroupSidebar') }} === 2) {
+                document.getElementById("gr-group").classList.add("show");
+                console.log("session log", 2);
+            }
+            if ({{ session('GroupSidebar') }} === 3) {
+                document.getElementById("fl-group").classList.add("show");
+                console.log("session log", 3);
+            }
         });
 
         function fetch_upa_dt() {
