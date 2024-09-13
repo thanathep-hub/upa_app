@@ -75,6 +75,9 @@
             <div class="title m-b-md">
                 <img src="{{ asset('auth/access-denied.png') }}" alt="" height="200px">
                 <h2>คุณไม่มีสิทธิ์เข้าถึงหน้านี้</h2>
+                <button class="btn btn-dark">
+                    <a href="/logout" style="color:floralwhite;">กลับไปยังหน้าหลัก</a>
+                </button>
             </div>
         </div>
     </div>
