@@ -3,7 +3,7 @@
          max-width: 264px;
          min-width: 264px;
          transition: all 0.35s ease-in-out;
-         background-color: #f8f8f8;
+         background-color: #f8f8f9;
          display: flex;
          flex-direction: column;
      }
@@ -92,6 +92,10 @@
              margin-left: 0;
          }
      }
+
+     .active {
+         box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+     }
  </style>
  <!-- Sidebar -->
  <aside id="sidebar" class="sidebar-toggle">
@@ -100,61 +104,167 @@
      </div>
      <!-- Sidebar Navigation -->
      <ul class="sidebar-nav p-0">
-         {{-- <li class="sidebar-header">
-                    Tools & Components
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="lni lni-user"></i>
-                        <span>Profile</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="lni lni-agenda"></i>
-                        <span>Task</span>
-                    </a>
-                </li> --}}
          <li class="sidebar-header">
-             ค่าใช้จ่าย
+             ค่าใช้จ่าย {{ session('GroupSidebar') }}
          </li>
          <li class="sidebar-item">
              <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-                 data-bs-target="#auth" aria-expanded="true" aria-controls="auth">
-                 <i class="fa-solid fa-building"></i>
-                 <span>บริษัท</span>
+                 data-bs-target="#av-group" aria-expanded="true" aria-controls="av-group">
+                 <i class="fa-solid fa-building pe-2"></i>
+                 <span>AV Group</span>
              </a>
-             <ul id="auth" class="sidebar-dropdown list-unstyled collapse show" data-bs-parent="#sidebar">
-                 <li class="sidebar-item m-2" style="background-color: #6dd7ff;border-radius:12px;">
-                     <a href="#" class="sidebar-link active" style="color: #fff;">GR</a>
+             <ul class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar" id="av-group">
+                 <li class="sidebar-item m-2 active" style="background-color: #fff;border-radius:12px;">
+                     <a href="#" class="sidebar-link">GR</a>
                  </li>
              </ul>
          </li>
-         {{-- <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="lni lni-popup"></i>
-                        <span>Notification</span>
-                    </a>
-                </li> --}}
-         {{-- <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="lni lni-cog"></i>
-                        <span>Setting</span>
-                    </a>
-                </li> --}}
+         <li class="sidebar-item">
+             <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+                 data-bs-target="#gr-group" aria-expanded="true" aria-controls="gr-group">
+                 <i class="fa-solid fa-building pe-2"></i>
+                 <span>GR Group</span>
+             </a>
+             <ul class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar" id="gr-group">
+                 <li class="sidebar-item m-2 active" style="background-color: #fff;border-radius:12px;">
+                     <a href="#" class="sidebar-link">GR</a>
+                 </li>
+             </ul>
+         </li>
+         <li class="sidebar-item">
+             <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+                 data-bs-target="#fl-group" aria-expanded="true" aria-controls="fl-group">
+                 <i class="fa-solid fa-building pe-2"></i>
+                 <span>FL Group</span>
+             </a>
+             <ul class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar" id="fl-group">
+                 <li class="sidebar-item m-2 active" style="background-color: #fff;border-radius:12px;">
+                     <a href="#" class="sidebar-link">GR</a>
+                 </li>
+             </ul>
+         </li>
      </ul>
      <!-- Sidebar Navigation Ends -->
      <div class="sidebar-footer">
-         <a href="#" class="sidebar-link">
+         <a href="/logout" class="sidebar-link">
              <i class="fa-solid fa-right-from-bracket fa-flip-horizontal pe-2"></i>
              ออกจากระบบ
          </a>
      </div>
  </aside>
  <!-- Sidebar Ends -->
- <script>
-     const toggler = document.querySelector(".toggler-btn");
-     toggler.addEventListener("click", function() {
-         document.querySelector("#sidebar").classList.toggle("collapsed");
-     });
- </script>
+ @push('script')
+     <script>
+         $(document).ready(function() {
+             fetch_comp_session();
+             const toggler = document.querySelector(".toggler-btn");
+             toggler.addEventListener("click", function() {
+                 document.querySelector("#sidebar").classList.toggle("collapsed");
+             });
+         });
+
+         function fetch_comp_session() {
+             $.ajax({
+                 type: "get",
+                 url: "/fetch/comp_session/1",
+                 success: function(response) {
+                     console.log(response);
+                     if (response.status === 'success') {
+                         let comp = response.data;
+                         let av = $('#av-group');
+                         av.empty();
+
+                         if (Array.isArray(comp)) {
+                             if (comp.length > 0) {
+                                 comp.forEach((item, index) => {
+                                     let row = `
+                                        <li class="sidebar-item m-2" style="background-color: #fff;border-radius:12px;">
+                                            <a href="/set/session/comp/1/${item.idcomp}" class="sidebar-link">${item.CompName || ''}</a>
+                                        </li>
+                                    `;
+                                     setTimeout(function() {
+                                         av.append(row);
+                                     }, index * 50);
+                                 });
+                                 if ({{ session('GroupSidebar') }} === 1) {
+                                     document.getElementById("av-group").classList.add("show");
+                                     console.log("session log", {{ session('GroupSidebar') }});
+                                 }
+                             } else {
+                                 av.append(``);
+                             }
+                         }
+                     }
+                 }
+             });
+
+             $.ajax({
+                 type: "get",
+                 url: "/fetch/comp_session/2",
+                 success: function(response) {
+                     console.log(response);
+                     if (response.status === 'success') {
+                         let comp = response.data;
+                         let gr = $('#gr-group');
+                         gr.empty();
+
+                         if (Array.isArray(comp)) {
+                             if (comp.length > 0) {
+                                 comp.forEach((item, index) => {
+                                     let row = `
+                                        <li class="sidebar-item m-2" style="background-color: #fff;border-radius:12px;">
+                                            <a href="/set/session/comp/2/${item.idcomp}" class="sidebar-link">${item.CompName || ''}</a>
+                                        </li>
+                                    `;
+                                     setTimeout(function() {
+                                         gr.append(row);
+                                     }, index * 50);
+                                 });
+                                 if ({{ session('GroupSidebar') }} === 2) {
+                                     document.getElementById("gr-group").classList.add("show");
+                                     console.log("session log", 2);
+                                 }
+                             } else {
+                                 gr.append(``);
+                             }
+                         }
+                     }
+                 }
+             });
+
+             $.ajax({
+                 type: "get",
+                 url: "/fetch/comp_session/3",
+                 success: function(response) {
+                     console.log(response);
+                     if (response.status === 'success') {
+                         let comp = response.data;
+                         let fl = $('#fl-group');
+                         fl.empty();
+
+                         if (Array.isArray(comp)) {
+                             if (comp.length > 0) {
+                                 comp.forEach((item, index) => {
+                                     let row = `
+                                        <li class="sidebar-item m-2" style="background-color: #fff;border-radius:12px;">
+                                            <a href="/set/session/comp/3/${item.idcomp}" class="sidebar-link">${item.CompName || ''}</a>
+                                        </li>
+                                    `;
+                                     setTimeout(function() {
+                                         fl.append(row);
+                                     }, index * 50);
+                                 });
+                                 if ({{ session('GroupSidebar') }} === 3) {
+                                     document.getElementById("fl-group").classList.add("show");
+                                     console.log("session log", 3);
+                                 }
+                             } else {
+                                 fl.append(``);
+                             }
+                         }
+                     }
+                 }
+             });
+         }
+     </script>
+ @endpush

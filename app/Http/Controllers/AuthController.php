@@ -27,8 +27,12 @@ class AuthController extends Controller
             }
             $login = collect(DB::select($query))->first();
             if ($login) {
+
                 session()->put("user", $login);
                 session()->put("idComp", $login->idCompb);
+                session()->put("year", date('Y') + 543);
+                session()->put("GroupSidebar", $this->groupComp($login->idPs));
+
                 if ($login->idPositions === '17' || $login->idPositions === '15') {
                     session()->put("role", "admin");
                 }
@@ -43,6 +47,25 @@ class AuthController extends Controller
             }
         } else {
             return back()->withErrors(['msg' => 'รหัสผู้ใช้หรือรหัสผ่านไม่ถูกต้อง']);
+        }
+    }
+    public function groupComp($id)
+    {
+        $query = collect(DB::select("
+            SELECT
+                gdde.idCompb,
+                pddc.CompCode,
+                pddc.CompName,
+                pddg.parentid
+            FROM
+                GR_Group.dbo.dEmployee gdde
+                LEFT JOIN PchInvAndProject.dbo.dCompany pddc ON gdde.idComp = pddc.idComp
+                LEFT JOIN PchInvAndProject.devsk.dGroupCompMap pddg ON gdde.idCompb = pddg.idcomp
+            WHERE
+                gdde.idPs = $id
+        "))->first();
+        if ($query) {
+            return $query->parentid;
         }
     }
     public function userLogout()

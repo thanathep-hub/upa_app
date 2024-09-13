@@ -35,4 +35,7 @@ Route::get('/error/access-denied', function () {
     return view('error.access-denied');
 });
 
-Route::get('/test/{idComp}/{year}', 'UPAController@cost');
+Route::get('/fetch/upa/cost_dt/{idComp}/{year}', 'UPAController@cost_dt');
+Route::get('/fetch/upa/cost_mt/{idComp}/{year}', 'UPAController@cost_mt');
+Route::get('/fetch/comp_session/{id}', 'UPAController@compSession');
+Route::get('/set/session/comp/{idSidebar}/{idComp}', 'UPAController@compSessionSet');
