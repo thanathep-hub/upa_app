@@ -515,4 +515,10 @@ class UPAController extends Controller
             return response()->json(['error' => 'Something went wrong'], 500);
         }
     }
+
+    public function cost_change_year($year)
+    {
+        session(['year' => $year]);
+        return redirect()->back();
+    }
 }

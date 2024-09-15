@@ -3,7 +3,8 @@
          max-width: 264px;
          min-width: 264px;
          transition: all 0.35s ease-in-out;
-         background-color: #f8f8f9;
+         /* background-color: #f8f8f9; */
+         background-color: #cbd5e1;
          display: flex;
          flex-direction: column;
      }
@@ -20,7 +21,8 @@
 
      .toggler-btn i {
          font-size: 1.75rem;
-         color: #808080;
+         /* color: #808080; */
+         color: #111827;
          font-weight: 1000;
      }
 
@@ -93,9 +95,24 @@
          }
      }
 
+     a.sidebar-link:hover {
+         background-color: #ffffff;
+         color: #111827 !important;
+         border-radius: 12px;
+     }
+
      .active {
          box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
          /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
+         background-color: #111827;
+
+         a.sidebar-link {
+             color: #fff;
+         }
+     }
+
+     .active:hover {
+         background-color: #6b7280;
      }
  </style>
  <!-- Sidebar -->
@@ -152,20 +169,16 @@
 
 
          var comSelect = {{ session('idComp') }};
-         console.log(comSelect);
          $(document).ready(function() {
 
              if (groupComp === 1) {
                  document.getElementById("av-group").classList.add("show");
-                 console.log("session log", 1);
              }
              if (groupComp === 2) {
                  document.getElementById("gr-group").classList.add("show");
-                 console.log("session log", 2);
              }
              if (groupComp === 3) {
                  document.getElementById("fl-group").classList.add("show");
-                 console.log("session log", 3);
              }
              fetch_comp_session();
              const toggler = document.querySelector(".toggler-btn");
@@ -179,7 +192,6 @@
                  type: "get",
                  url: "/fetch/comp_session/1",
                  success: function(response) {
-                     console.log(response);
                      if (response.status === 'success') {
                          let comp = response.data;
                          let av = $('#av-group');
@@ -196,8 +208,6 @@
                                      setTimeout(function() {
                                          av.append(row);
                                      }, index * 50);
-                                     console.log('item.idComp:', item.idcomp);
-                                     console.log('comSelect:', comSelect);
                                  });
                              } else {
                                  av.append(``);
@@ -211,7 +221,6 @@
                  type: "get",
                  url: "/fetch/comp_session/2",
                  success: function(response) {
-                     console.log(response);
                      if (response.status === 'success') {
                          let comp = response.data;
                          let gr = $('#gr-group');
@@ -241,7 +250,6 @@
                  type: "get",
                  url: "/fetch/comp_session/3",
                  success: function(response) {
-                     console.log(response);
                      if (response.status === 'success') {
                          let comp = response.data;
                          let fl = $('#fl-group');

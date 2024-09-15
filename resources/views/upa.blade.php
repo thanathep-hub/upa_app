@@ -13,6 +13,15 @@
             white-space: nowrap;
         }
 
+        tr:hover td {
+            background-color: #dbeafe;
+            cursor: pointer;
+        }
+
+        tr.tr-active td {
+            background-color: #93c5fd;
+        }
+
         th {
             /* min-width: 250px; */
         }
@@ -34,8 +43,9 @@
         .dropdown-menu {
             --bs-dropdown-min-width: 100px;
             border: none;
-            background-color: #e2e0ff;
+            /* background-color: #e2e0ff; */
             color: #fff;
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
         }
 
         .trr {
@@ -78,8 +88,21 @@
         .w-160 {
             min-width: 160px;
         }
+
+        button.btn.btn-secondary.dropdown-toggle {
+            box-shadow: #0000001a 0px 4px 12px;
+        }
+
+        a.dropdown-item {
+            text-align: center;
+        }
+
+        a.dropdown-item:hover {
+            background-color: #111827;
+            color: #fff;
+        }
     </style>
-    <h3 style="font-weight: 700;">รวมค่าใช้จ่าย</h3>
+    <h3 style="font-weight: 700;">รวมค่าใช้จ่าย ปี {{ session('year') }}</h3>
     <div class="card p-4 border-0 mb-3" style="background-color:#f9fafb;">
         <div class="d-flex justify-content-between">
             <h5 class="mb-3" style="font-weight: 700;color:#374151;" id="name-comp-cost">บริษัท ...</h5>
@@ -87,10 +110,18 @@
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        ปี 2567
+                        เลือกปี
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">2567</a></li>
+                        <li>
+                            <a class="dropdown-item"
+                                href="/fetch/upa/cost/change/{{ \Carbon\Carbon::now()->addYears(542)->format('Y') }}">{{ \Carbon\Carbon::now()->addYears(542)->format('Y') }}</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item"
+                                href="/fetch/upa/cost/change/{{ \Carbon\Carbon::now()->year + 543 }}">{{ \Carbon\Carbon::now()->addYears(543)->format('Y') }}</a>
+                        </li>
+
                     </ul>
                 </div>
             </div>
@@ -382,7 +413,6 @@
         function fetch_upa_dt() {
             const idComp = '{{ session('idComp') }}';
             const year = '{{ session('year') }}';
-            console.log("Fetching data with ID:", idComp, "and Year:", year);
 
             $.ajax({
                 type: "get",
@@ -399,7 +429,7 @@
                             if (cost.length > 0) {
                                 cost.forEach((item, index) => {
                                     let row = `
-                                        <tr>
+                                        <tr class="msgRow" onclick="bgtr(this)">
                                             <td class="sticky-col first-col">${index + 1}</td>
                                             <td class="sticky-col second-col text-start">${item.nameType || ''}</td>
                                             <td>${formatNumber(item.Md1_1)}</td>
@@ -453,14 +483,11 @@
         function fetch_upa_mt() {
             const idComp = '{{ session('idComp') }}';
             const year = '{{ session('year') }}';
-            console.log("Fetching data with ID:", idComp, "and Year:", year);
 
             $.ajax({
                 type: "get",
                 url: `/fetch/upa/cost_mt/${idComp}/${year}`,
                 success: function(response) {
-                    console.log(response);
-
                     let tbody = $('#cost-mt tbody');
                     tbody.empty();
 
@@ -491,7 +518,6 @@
                             tbody.append('<tr><td colspan="24">No data available</td></tr>');
                         }
                     } else {
-                        console.log('Error:', response.msg);
                         tbody.append('<tr><td colspan="24">No data available</td></tr>');
                     }
                 },
@@ -509,6 +535,12 @@
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
             }) : '';
+        }
+
+        function bgtr(element) {
+            $('.msgRow').removeClass('tr-active');
+            $(element).addClass('tr-active');
+
         }
     </script>
 @endpush
