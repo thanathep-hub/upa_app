@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('auth/upa-high-resolution-logo.png') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('auth/upa-icon-ll.png') }}">
     <link rel="manifest" href="{{ asset('manifest.json') }}">
     <link rel="manifest" href="/app.webmanifest" crossorigin="use-credentials" />
     <title>UPA</title>
