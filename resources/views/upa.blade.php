@@ -290,6 +290,13 @@
                                 <div>ประเภทค่าใช้จ่าย</div>
                             </th>
                             <th colspan="2" class="p-0 w-250">
+                                <div class="text-center border-bottom">รวม</div>
+                                <div class="d-flex w-100 text-center">
+                                    <div class="trr border-end">ค่าใช้จ่าย</div>
+                                    <div class="trr">ค้างจ่าย</div>
+                                </div>
+                            </th>
+                            <th colspan="2" class="p-0">
                                 <div class="text-center border-bottom">ม.ค.</div>
                                 <div class="d-flex w-100 text-center">
                                     <div class="trr border-end">ค่าใช้จ่าย</div>
@@ -405,6 +412,8 @@
                             <td>กำลังโหลด...</td>
                             <td>กำลังโหลด...</td>
                             <td>กำลังโหลด...</td>
+                            <td>กำลังโหลด...</td>
+                            <td>กำลังโหลด...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -447,6 +456,8 @@
                                         <tr class="msgRow" onclick="bgtr(this)">
                                             <td class="sticky-col first-col">${index + 1}.</td>
                                             <td class="sticky-col second-col text-start">${item.nameType || ''}</td>
+                                            <td>${formatNumber(item.dTotal_1)}</td>
+                                            <td>${formatNumber(item.dTotal_2)}</td>
                                             <td>${formatNumber(item.Md1_1)}</td>
                                             <td>${formatNumber(item.Md1_2)}</td>
                                             <td>${formatNumber(item.Md2_1)}</td>
