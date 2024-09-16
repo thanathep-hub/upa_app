@@ -33,7 +33,7 @@ class AuthController extends Controller
                 session()->put("year", date('Y') + 543);
                 session()->put("GroupSidebar", $this->groupComp($login->idPs));
 
-                if ($login->idPositions === '17' || $login->idPositions === '15') {
+                if ($login->idPositions === '17' || $login->idPositions === '15' ||  $login->idPositions === '171') {
                     session()->put("role", "admin");
                 }
                 if ($login->idPositions != 17 && $login->idPositions != 15) {
