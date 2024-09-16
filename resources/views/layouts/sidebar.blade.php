@@ -144,7 +144,7 @@
              <ul class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar" id="gr-group">
              </ul>
          </li>
-         <li class="sidebar-item">
+         <li class="sidebar-item mb-3">
              <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
                  data-bs-target="#fl-group" aria-expanded="true" aria-controls="fl-group">
                  <i class="fa-solid fa-building pe-2"></i>
@@ -153,14 +153,21 @@
              <ul class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar" id="fl-group">
              </ul>
          </li>
+
+         <li class="border-top pt-3">
+             <a href="/logout" class="sidebar-link">
+                 <i class="fa-solid fa-right-from-bracket fa-flip-horizontal ps-2"></i>
+                 ออกจากระบบ
+             </a>
+         </li>
      </ul>
      <!-- Sidebar Navigation Ends -->
-     <div class="sidebar-footer">
+     {{-- <div class="sidebar-footer">
          <a href="/logout" class="sidebar-link">
-             <i class="fa-solid fa-right-from-bracket fa-flip-horizontal pe-2"></i>
+             <i class="fa-solid fa-right-from-bracket fa-flip-horizontal"></i>
              ออกจากระบบ
          </a>
-     </div>
+     </div> --}}
  </aside>
  <!-- Sidebar Ends -->
  @push('script')

@@ -34,7 +34,13 @@
         }
 
         .card {
-            max-width: 400px;
+            width: 400px;
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                width: 90%;
+            }
         }
 
         .btn-login {

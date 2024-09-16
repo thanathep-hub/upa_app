@@ -28,7 +28,7 @@
 
         td {
             text-align: end;
-            width: 124.5px;
+            width: 125px;
             font-weight: 400;
         }
 
@@ -75,10 +75,20 @@
         }
 
         .second-col {
-            width: 160px;
-            min-width: 160px;
-            max-width: 160px;
+            width: 140px;
+            min-width: 140px;
+            max-width: 140px;
             left: 40px;
+        }
+
+        .bg-scroll {
+            background-color: #f1f5f9 !important;
+            border-color: #f1f5f9 !important;
+            border: unset;
+        }
+
+        th.sticky-col.second-col {
+            /* border: inherit; */
         }
 
         .w-250 {
@@ -103,10 +113,10 @@
         }
     </style>
     <h3 style="font-weight: 700;">รวมค่าใช้จ่าย ปี {{ session('year') }}</h3>
-    <div class="card p-4 border-0 mb-3" style="background-color:#f9fafb;">
-        <div class="d-flex justify-content-between">
-            <h5 class="mb-3" style="font-weight: 700;color:#374151;" id="name-comp-cost">บริษัท ...</h5>
-            <div>
+    <div class="card p-4 border-0 mb-3" style="background-color:#f9fafb;min-width: 376px;">
+        <div class="row justify-content-between">
+            <h5 class="col-auto mb-3" style="font-weight: 700;color:#374151;" id="name-comp-cost">บริษัท ...</h5>
+            <div class="col-auto">
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
@@ -126,16 +136,16 @@
                 </div>
             </div>
         </div>
-        <div class="d-flex">
-            <div class="w-160">
+        <div class="row">
+            <div class="col-auto w-160">
                 <span style="font-weight: 500;">ค่าใช้จ่าย</span>
                 <h5 style="color: #eab308;font-family: 'Kanit', sans-serif;" id="expenses">00.00</h5>
             </div>
-            <div class="w-160">
+            <div class="col-auto w-160">
                 <span style="font-weight: 500;">ค้างจ่าย</span>
                 <h5 style="color: #ef4444;" id="pending">00.00</h5>
             </div>
-            <div class="w-160">
+            <div class="col-auto w-160">
                 <span style="font-weight: 500;">จ่ายไปแล้ว</span>
                 <h5 style="color: #22c55e;" id="paid">00.00</h5>
             </div>
@@ -270,7 +280,7 @@
             </div>
         </div>
         <div class="detail-cost mt-4">
-            <div class="table-responsive">
+            <div class="table-responsive" id="scroll-dt">
                 <table class="table table-bordered" style="overflow-x: auto;" id="cost-dt">
                     <thead>
                         <tr>
@@ -369,7 +379,7 @@
                     <tbody>
 
                         <tr>
-                            <td class="sticky-col first-col">1</td>
+                            <td class="sticky-col first-col">1.</td>
                             <td class="sticky-col second-col text-start">กำลังโหลด...</td>
                             <td>กำลังโหลด...</td>
                             <td>กำลังโหลด...</td>
@@ -408,6 +418,11 @@
         $(document).ready(function() {
             fetch_upa_mt();
             fetch_upa_dt();
+            $('#scroll-dt').on('scroll', function() {
+                console.log('Table is scrolling'); // ตรวจสอบว่ามีการเลื่อนเกิดขึ้น
+                $('.second-col').addClass('bg-scroll');
+                $('.first-col').addClass('bg-scroll');
+            });
         });
 
         function fetch_upa_dt() {
@@ -430,7 +445,7 @@
                                 cost.forEach((item, index) => {
                                     let row = `
                                         <tr class="msgRow" onclick="bgtr(this)">
-                                            <td class="sticky-col first-col">${index + 1}</td>
+                                            <td class="sticky-col first-col">${index + 1}.</td>
                                             <td class="sticky-col second-col text-start">${item.nameType || ''}</td>
                                             <td>${formatNumber(item.Md1_1)}</td>
                                             <td>${formatNumber(item.Md1_2)}</td>
@@ -464,18 +479,24 @@
                                     }, index * 75);
                                 });
                             } else {
-                                tbody.append('<tr><td colspan="24">No data available</td></tr>');
+                                tbody.append(
+                                    '<tr><td colspan="24">No data available</td></tr>'
+                                );
                             }
                         } else {
-                            console.error('Expected array but received:', typeof response, response);
-                            $('#cost-dt tbody').append('<tr><td colspan="24">Unexpected data format</td></tr>');
+                            console.error('Expected array but received:',
+                                typeof response, response);
+                            $('#cost-dt tbody').append(
+                                '<tr><td colspan="24">Unexpected data format</td></tr>'
+                            );
                         }
                     } else {
                         console.log('Error:', response.msg);
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    console.error('There was a problem with your request:', textStatus, errorThrown);
+                    console.error('There was a problem with your request:', textStatus,
+                        errorThrown);
                 }
             });
         }
@@ -496,10 +517,14 @@
                         const ex = parseFloat(cost_mt.Total_1);
                         const pe = parseFloat(cost_mt.Total_2);
                         const pa = ex - pe;
-                        document.getElementById('name-comp-cost').innerText = cost_mt.CompName;
-                        document.getElementById('expenses').innerText = '฿' + formatNumber(cost_mt.Total_1);
-                        document.getElementById('pending').innerText = '฿' + formatNumber(cost_mt.Total_2);
-                        document.getElementById('paid').innerText = '฿' + formatNumber(pa);
+                        document.getElementById('name-comp-cost').innerText = cost_mt
+                            .CompName;
+                        document.getElementById('expenses').innerText = '฿' +
+                            formatNumber(cost_mt.Total_1);
+                        document.getElementById('pending').innerText = '฿' +
+                            formatNumber(cost_mt.Total_2);
+                        document.getElementById('paid').innerText = '฿' + formatNumber(
+                            pa);
 
                         if (cost_mt) {
                             // Dynamically create rows based on the keys of cost_mt
@@ -515,14 +540,17 @@
                                 tbody.append(row);
                             }, 75);
                         } else {
-                            tbody.append('<tr><td colspan="24">No data available</td></tr>');
+                            tbody.append(
+                                '<tr><td colspan="24">No data available</td></tr>');
                         }
                     } else {
-                        tbody.append('<tr><td colspan="24">No data available</td></tr>');
+                        tbody.append(
+                            '<tr><td colspan="24">No data available</td></tr>');
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    console.error('There was a problem with your request:', textStatus, errorThrown);
+                    console.error('There was a problem with your request:', textStatus,
+                        errorThrown);
                     $('#cost-mt tbody').append(
                         '<tr><td colspan="24">There was an error fetching the data. Please try again later.</td></tr>'
                     );
