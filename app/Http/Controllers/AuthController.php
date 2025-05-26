@@ -19,7 +19,11 @@ class AuthController extends Controller
         $password = $request->input("password");
 
         if ($request->input("username") != '' && $request->input("password") != '') {
-            $query = "SELECT * FROM GR_Group.dbo.dEmployee WHERE GR_Group.dbo.dEmployee.UN = '$user' AND GR_Group.dbo.dEmployee.PW = '$password'";
+
+            $result = DB::connection('sqlsrv')->select("EXEC [ACC_Center].[dbo].[sp_ErpLogin] ?, ?", [$user, $password]);
+            $idPs = $result[0]->idPs ?? '';
+            $query = "SELECT * FROM GR_Group.dbo.dEmployee WHERE GR_Group.dbo.dEmployee.idPs = '$idPs'";
+
             try {
                 $login = collect(DB::select($query))->first();
             } catch (\Throwable $th) {
@@ -44,6 +48,8 @@ class AuthController extends Controller
                 Session::forget('previous_url');
 
                 return redirect()->to($previousUrl);
+            } else {
+                return back()->withErrors(['msg' => 'รหัสผู้ใช้หรือรหัสผ่านไม่ถูกต้อง']);
             }
         } else {
             return back()->withErrors(['msg' => 'รหัสผู้ใช้หรือรหัสผ่านไม่ถูกต้อง']);
