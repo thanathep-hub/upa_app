@@ -453,50 +453,25 @@ class UPAController extends Controller
     {
         try {
             $cost_mt = collect(DB::select("
-                SELECT
-                    Com.idComp,
-                    Com.CompName,
-                    ISNULL( ( SELECT SUM ( Total ) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND stGetBank = '1' AND YM LIKE '%" . $year . "01' ), 0 ) AS M1_1,
-                    ISNULL( ( SELECT SUM ( Total ) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND stGetBank IS NULL AND YM LIKE '%" . $year . "01' ), 0 ) AS M1_2,
-                    ISNULL( ( SELECT SUM ( Total ) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND stGetBank = '1' AND YM LIKE '%" . $year . "02' ), 0 ) AS M2_1,
-                    ISNULL( ( SELECT SUM ( Total ) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND stGetBank IS NULL AND YM LIKE '%" . $year . "02' ), 0 ) AS M2_2,
-                    ISNULL( ( SELECT SUM ( Total ) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND stGetBank = '1' AND YM LIKE '%" . $year . "03' ), 0 ) AS M3_1,
-                    ISNULL( ( SELECT SUM ( Total ) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND stGetBank IS NULL AND YM LIKE '%" . $year . "03' ), 0 ) AS M3_2,
-                    ISNULL( ( SELECT SUM ( Total ) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND stGetBank = '1' AND YM LIKE '%" . $year . "04' ), 0 ) AS M4_1,
-                    ISNULL( ( SELECT SUM ( Total ) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND stGetBank IS NULL AND YM LIKE '%" . $year . "04' ), 0 ) AS M4_2,
-                    ISNULL( ( SELECT SUM ( Total ) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND stGetBank = '1' AND YM LIKE '%" . $year . "05' ), 0 ) AS M5_1,
-                    ISNULL( ( SELECT SUM ( Total ) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND stGetBank IS NULL AND YM LIKE '%" . $year . "05' ), 0 ) AS M5_2,
-                    ISNULL( ( SELECT SUM ( Total ) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND stGetBank = '1' AND YM LIKE '%" . $year . "06' ), 0 ) AS M6_1,
-                    ISNULL( ( SELECT SUM ( Total ) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND stGetBank IS NULL AND YM LIKE '%" . $year . "06' ), 0 ) AS M6_2,
-                    ISNULL( ( SELECT SUM ( Total ) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND stGetBank = '1' AND YM LIKE '%" . $year . "07' ), 0 ) AS M7_1,
-                    ISNULL( ( SELECT SUM ( Total ) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND stGetBank IS NULL AND YM LIKE '%" . $year . "07' ), 0 ) AS M7_2,
-                    ISNULL( ( SELECT SUM ( Total ) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND stGetBank = '1' AND YM LIKE '%" . $year . "08' ), 0 ) AS M8_1,
-                    ISNULL( ( SELECT SUM ( Total ) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND stGetBank IS NULL AND YM LIKE '%" . $year . "08' ), 0 ) AS M8_2,
-                    ISNULL( ( SELECT SUM ( Total ) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND stGetBank = '1' AND YM LIKE '%" . $year . "09' ), 0 ) AS M9_1,
-                    ISNULL( ( SELECT SUM ( Total ) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND stGetBank IS NULL AND YM LIKE '%" . $year . "09' ), 0 ) AS M9_2,
-                    ISNULL( ( SELECT SUM ( Total ) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND stGetBank = '1' AND YM LIKE '%" . $year . "10' ), 0 ) AS M10_1,
-                    ISNULL( ( SELECT SUM ( Total ) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND stGetBank IS NULL AND YM LIKE '%" . $year . "10' ), 0 ) AS M10_2,
-                    ISNULL( ( SELECT SUM ( Total ) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND stGetBank = '1' AND YM LIKE '%" . $year . "11' ), 0 ) AS M11_1,
-                    ISNULL( ( SELECT SUM ( Total ) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND stGetBank IS NULL AND YM LIKE '%" . $year . "11' ), 0 ) AS M11_2,
-                    ISNULL( ( SELECT SUM ( Total ) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND stGetBank = '1' AND YM LIKE '%" . $year . "12' ), 0 ) AS M12_1,
-                    ISNULL( ( SELECT SUM ( Total ) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND stGetBank IS NULL AND YM LIKE '%" . $year . "12' ), 0 ) AS M12_2,
-                    ISNULL( ( SELECT SUM ( Total ) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND stGetBank = '1' AND YM LIKE '%" . $year . "%' ), 0 ) AS Total_1,
-                    ISNULL( ( SELECT SUM ( Total ) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND stGetBank IS NULL AND YM LIKE '%" . $year . "%' ), 0 ) AS Total_2
-                FROM
-                    dCompany AS Com
-                WHERE
-                    Com.idComp IN (
-                    SELECT
-                        idcomp
-                    FROM
-                        PchInvAndProject.devsk.dGroupCompMap
-                    WHERE
-                        idcomp IN ( SELECT idcomp FROM [PchInvAndProject].[devsk].[dGroupCompMap] WHERE parentid IN(1,2,3) AND stActive = 1 )
-                        AND stActive = 1
-                    ) AND Com.idComp = $idComp
-                ORDER BY
-                    Com.idComp ASC
-            "))->first();
+                SELECT Com.idComp,Com.CompName,
+                (SELECT SUM(Total) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND  YM Like '%" . $year . "01') AS M1_1,
+                (SELECT SUM(Total) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND  YM Like '%" . $year . "02') AS M2_1,
+                (SELECT SUM(Total) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND  YM Like '%" . $year . "03') AS M3_1,
+                (SELECT SUM(Total) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND  YM Like '%" . $year . "04') AS M4_1,
+                (SELECT SUM(Total) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND  YM Like '%" . $year . "05') AS M5_1,
+                (SELECT SUM(Total) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND  YM Like '%" . $year . "06') AS M6_1,
+                (SELECT SUM(Total) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND  YM Like '%" . $year . "07') AS M7_1,
+                (SELECT SUM(Total) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND  YM Like '%" . $year . "08') AS M8_1,
+                (SELECT SUM(Total) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND  YM Like '%" . $year . "09') AS M9_1,
+                (SELECT SUM(Total) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND  YM Like '%" . $year . "10') AS M10_1,
+                (SELECT SUM(Total) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND  YM Like '%" . $year . "11') AS M11_1,
+                (SELECT SUM(Total) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND  YM Like '%" . $year . "12') AS M12_1,
+                (SELECT SUM(Total) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND  YM Like '%" . $year . "%') AS Total_1
+                FROM dCompany As Com
+                WHERE Com.idComp IN (SELECT idcomp FROM PchInvAndProject.devsk.dGroupCompMap WHERE idcomp IN (Select idcomp FROM [PchInvAndProject].[devsk].[dGroupCompMap] WHERE idcomp IN (" . $idComp . ") And stActive = 1)  AND stActive = 1)
+                ORDER BY Com.idComp ASC
+            "));
+
             if ($cost_mt) {
                 return response()->json([
                     'status' => 'success',

@@ -120,7 +120,7 @@
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        เลือกปี
+                        เลือกปี {{ session('year') }}
                     </button>
                     <ul class="dropdown-menu">
                         <li>
@@ -141,14 +141,14 @@
                 <span style="font-weight: 500;">ค่าใช้จ่าย</span>
                 <h5 style="color: #eab308;font-family: 'Kanit', sans-serif;" id="expenses">00.00</h5>
             </div>
-            <div class="col-auto w-160">
+            {{-- <div class="col-auto w-160">
                 <span style="font-weight: 500;">ค้างจ่าย</span>
                 <h5 style="color: #ef4444;" id="pending">00.00</h5>
             </div>
             <div class="col-auto w-160">
                 <span style="font-weight: 500;">จ่ายไปแล้ว</span>
                 <h5 style="color: #22c55e;" id="paid">00.00</h5>
-            </div>
+            </div> --}}
         </div>
 
     </div>
@@ -159,107 +159,95 @@
                     <table class="table table-bordered" style="overflow-x: auto;" id="cost-mt">
                         <thead>
                             <tr>
-                                <th colspan="2" class="p-0 w-250">
+                                <th class="p-0">
                                     <div class="text-center border-bottom">ม.ค.</div>
                                     <div class="d-flex w-100 text-center">
-                                        <div class="trr border-end">ค่าใช้จ่าย</div>
-                                        <div class="trr">ค้างจ่าย</div>
+                                        <div class="trr">ค่าใช้จ่าย</div>
+
                                     </div>
                                 </th>
 
-                                <th colspan="2" class="p-0">
+                                <th class="p-0">
                                     <div class="text-center border-bottom">ก.พ.</div>
                                     <div class="d-flex w-100 text-center">
-                                        <div class="trr border-end">ค่าใช้จ่าย</div>
-                                        <div class="trr">ค้างจ่าย</div>
+                                        <div class="trr">ค่าใช้จ่าย</div>
+
                                     </div>
                                 </th>
-                                <th colspan="2" class="p-0">
+                                <th class="p-0">
                                     <div class="text-center border-bottom">มี.ค.</div>
                                     <div class="d-flex w-100 text-center">
-                                        <div class="trr border-end">ค่าใช้จ่าย</div>
-                                        <div class="trr">ค้างจ่าย</div>
+                                        <div class="trr">ค่าใช้จ่าย</div>
+
                                     </div>
                                 </th>
-                                <th colspan="2" class="p-0">
+                                <th class="p-0">
                                     <div class="text-center border-bottom">เม.ย.</div>
                                     <div class="d-flex w-100 text-center">
-                                        <div class="trr border-end">ค่าใช้จ่าย</div>
-                                        <div class="trr">ค้างจ่าย</div>
+                                        <div class="trr">ค่าใช้จ่าย</div>
+
                                     </div>
                                 </th>
-                                <th colspan="2" class="p-0">
+                                <th class="p-0">
                                     <div class="text-center border-bottom">พ.ค.</div>
                                     <div class="d-flex w-100 text-center">
-                                        <div class="trr border-end">ค่าใช้จ่าย</div>
-                                        <div class="trr">ค้างจ่าย</div>
+                                        <div class="trr">ค่าใช้จ่าย</div>
+
                                     </div>
                                 </th>
-                                <th colspan="2" class="p-0">
+                                <th class="p-0">
                                     <div class="text-center border-bottom">มิ.ย.</div>
                                     <div class="d-flex w-100 text-center">
-                                        <div class="trr border-end">ค่าใช้จ่าย</div>
-                                        <div class="trr">ค้างจ่าย</div>
+                                        <div class="trr">ค่าใช้จ่าย</div>
+
                                     </div>
                                 </th>
-                                <th colspan="2" class="p-0">
+                                <th class="p-0">
                                     <div class="text-center border-bottom">ก.ค.</div>
                                     <div class="d-flex w-100 text-center">
-                                        <div class="trr border-end">ค่าใช้จ่าย</div>
-                                        <div class="trr">ค้างจ่าย</div>
+                                        <div class="trr">ค่าใช้จ่าย</div>
+
                                     </div>
                                 </th>
-                                <th colspan="2" class="p-0">
+                                <th class="p-0">
                                     <div class="text-center border-bottom">ส.ค.</div>
                                     <div class="d-flex w-100 text-center">
-                                        <div class="trr border-end">ค่าใช้จ่าย</div>
-                                        <div class="trr">ค้างจ่าย</div>
+                                        <div class="trr">ค่าใช้จ่าย</div>
+
                                     </div>
                                 </th>
-                                <th colspan="2" class="p-0">
+                                <th class="p-0">
                                     <div class="text-center border-bottom">ก.ย.</div>
                                     <div class="d-flex w-100 text-center">
-                                        <div class="trr border-end">ค่าใช้จ่าย</div>
-                                        <div class="trr">ค้างจ่าย</div>
+                                        <div class="trr">ค่าใช้จ่าย</div>
+
                                     </div>
                                 </th>
-                                <th colspan="2" class="p-0">
+                                <th class="p-0">
                                     <div class="text-center border-bottom">ต.ค.</div>
                                     <div class="d-flex w-100 text-center">
-                                        <div class="trr border-end">ค่าใช้จ่าย</div>
-                                        <div class="trr">ค้างจ่าย</div>
+                                        <div class="trr">ค่าใช้จ่าย</div>
                                     </div>
                                 </th>
-                                <th colspan="2" class="p-0">
+                                <th class="p-0">
                                     <div class="text-center border-bottom">พ.ย.</div>
                                     <div class="d-flex w-100 text-center">
-                                        <div class="trr border-end">ค่าใช้จ่าย</div>
-                                        <div class="trr">ค้างจ่าย</div>
+                                        <div class="trr">ค่าใช้จ่าย</div>
                                     </div>
                                 </th>
-                                <th colspan="2" class="p-0">
+                                <th class="p-0">
                                     <div class="text-center border-bottom">ธ.ค.</div>
                                     <div class="d-flex w-100 text-center">
-                                        <div class="trr border-end">ค่าใช้จ่าย</div>
-                                        <div class="trr">ค้างจ่าย</div>
+                                        <div class="trr">ค่าใช้จ่าย</div>
                                     </div>
+                                </th>
+                                <th class="p-0 items-center text-center">
+                                    รวม
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>กำลังโหลด...</td>
-                                <td>กำลังโหลด...</td>
-                                <td>กำลังโหลด...</td>
-                                <td>กำลังโหลด...</td>
-                                <td>กำลังโหลด...</td>
-                                <td>กำลังโหลด...</td>
-                                <td>กำลังโหลด...</td>
-                                <td>กำลังโหลด...</td>
-                                <td>กำลังโหลด...</td>
-                                <td>กำลังโหลด...</td>
-                                <td>กำลังโหลด...</td>
-                                <td>กำลังโหลด...</td>
                                 <td>กำลังโหลด...</td>
                                 <td>กำลังโหลด...</td>
                                 <td>กำลังโหลด...</td>
@@ -513,7 +501,8 @@
         }
 
         function fetch_upa_mt() {
-            const idComp = '{{ session('idComp') }}';
+            const idComp = [3, 4];
+            // '{{ session('idComp') }}';
             const year = '{{ session('year') }}';
 
             $.ajax({
@@ -525,38 +514,63 @@
 
                     if (response.status === 'success') {
                         let cost_mt = response.data;
-                        const ex = parseFloat(cost_mt.Total_1);
-                        const pe = parseFloat(cost_mt.Total_2);
-                        const pa = ex - pe;
-                        document.getElementById('name-comp-cost').innerText = cost_mt
-                            .CompName;
-                        document.getElementById('expenses').innerText = '฿' +
-                            formatNumber(cost_mt.Total_1);
-                        document.getElementById('pending').innerText = '฿' +
-                            formatNumber(cost_mt.Total_2);
-                        document.getElementById('paid').innerText = '฿' + formatNumber(
-                            pa);
+                        const total = response.data.reduce((acc, item) => {
+                            return acc + parseFloat(item.Total_1 || 0);
+                        }, 0);
+                        console.log(response.data);
+                        console.log('====================================');
+                        console.log(total);
+                        console.log('====================================');
 
-                        if (cost_mt) {
-                            // Dynamically create rows based on the keys of cost_mt
-                            let row = '<tr>';
-                            for (let i = 1; i <= 12; i++) {
-                                row += `
-                            <td>${formatNumber(cost_mt[`M${i}_1`])}</td>
-                            <td>${formatNumber(cost_mt[`M${i}_2`])}</td>
-                        `;
+                        document.getElementById('name-comp-cost').innerText = response.data
+                            .map(item => item.CompName)
+                            .join(', ');
+
+                        document.getElementById('expenses').innerText = '฿' +
+                            formatNumber(total);
+
+
+                        if (cost_mt && cost_mt.length > 0) {
+                            // Initialize array to store monthly sums
+                            let monthlyTotals = new Array(12).fill(0);
+                            let grandTotal = 0;
+
+                            // Loop through each company data
+                            cost_mt.forEach(company => {
+                                let row = '<tr>';
+                                for (let i = 1; i <= 12; i++) {
+                                    const value1 = company[`M${i}_1`];
+                                    if (value1) {
+                                        monthlyTotals[i - 1] += parseFloat(value1);
+                                    }
+                                    row += `
+                <td>${value1 ? formatNumber(value1) : '-'}</td>
+            `;
+                                }
+                                row += `<td>${formatNumber(company.Total_1)}</td></tr>`;
+                                grandTotal += parseFloat(company.Total_1);
+
+                                setTimeout(() => {
+                                    tbody.append(row);
+                                }, 75);
+                            });
+
+                            // Add total row with text cell at the end
+                            let totalRow = '<tr class="table-warning fw-bold">';
+                            for (let i = 0; i < 12; i++) {
+                                totalRow += `<td>${formatNumber(monthlyTotals[i])}</td>`;
                             }
-                            row += '</tr>';
+                            totalRow += `<td>${formatNumber(grandTotal)}</td></tr>`;
+
                             setTimeout(() => {
-                                tbody.append(row);
-                            }, 75);
+                                tbody.append(totalRow);
+                            }, 100);
                         } else {
-                            tbody.append(
-                                '<tr><td colspan="24">No data available</td></tr>');
+                            tbody.append('<tr><td colspan="13">No data available</td></tr>');
                         }
                     } else {
                         tbody.append(
-                            '<tr><td colspan="24">No data available</td></tr>');
+                            '<tr><td colspan="12">No data available</td></tr>');
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
