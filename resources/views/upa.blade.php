@@ -9,6 +9,11 @@
             color: #000000;
         }
 
+        #cost_dt :nth-child(even) {
+            background-color: #f9fafb;
+
+        }
+
         tr {
             white-space: nowrap;
         }
@@ -28,6 +33,7 @@
 
         td {
             text-align: end;
+            min-width: 60px;
             width: 125px;
             font-weight: 400;
         }
@@ -119,18 +125,19 @@
             <div class="col-auto">
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        เลือกปี {{ session('year') }}
+                        aria-expanded="false" style="width: unset !important;">
+                        <span>
+                            เลือกปี {{ session('year') }}
+                        </span>
+
                     </button>
                     <ul class="dropdown-menu">
-                        <li>
-                            <a class="dropdown-item"
-                                href="/fetch/upa/cost/change/{{ \Carbon\Carbon::now()->addYears(542)->format('Y') }}">{{ \Carbon\Carbon::now()->addYears(542)->format('Y') }}</a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item"
-                                href="/fetch/upa/cost/change/{{ \Carbon\Carbon::now()->year + 543 }}">{{ \Carbon\Carbon::now()->addYears(543)->format('Y') }}</a>
-                        </li>
+                        @foreach ($years as $item)
+                            <li>
+                                <a class="dropdown-item"
+                                    href="/fetch/upa/cost/change/{{ $item->year }}">{{ $item->year }}</a>
+                            </li>
+                        @endforeach
 
                     </ul>
                 </div>
@@ -160,88 +167,55 @@
                         <thead>
                             <tr>
                                 <th class="p-0">
-                                    <div class="text-center border-bottom">ม.ค.</div>
-                                    <div class="d-flex w-100 text-center">
-                                        <div class="trr">ค่าใช้จ่าย</div>
+                                    <div class="text-center">ม.ค.</div>
 
-                                    </div>
                                 </th>
 
                                 <th class="p-0">
-                                    <div class="text-center border-bottom">ก.พ.</div>
-                                    <div class="d-flex w-100 text-center">
-                                        <div class="trr">ค่าใช้จ่าย</div>
+                                    <div class="text-center">ก.พ.</div>
 
-                                    </div>
                                 </th>
                                 <th class="p-0">
-                                    <div class="text-center border-bottom">มี.ค.</div>
-                                    <div class="d-flex w-100 text-center">
-                                        <div class="trr">ค่าใช้จ่าย</div>
+                                    <div class="text-center">มี.ค.</div>
 
-                                    </div>
                                 </th>
                                 <th class="p-0">
-                                    <div class="text-center border-bottom">เม.ย.</div>
-                                    <div class="d-flex w-100 text-center">
-                                        <div class="trr">ค่าใช้จ่าย</div>
+                                    <div class="text-center">เม.ย.</div>
 
-                                    </div>
                                 </th>
                                 <th class="p-0">
-                                    <div class="text-center border-bottom">พ.ค.</div>
-                                    <div class="d-flex w-100 text-center">
-                                        <div class="trr">ค่าใช้จ่าย</div>
+                                    <div class="text-center">พ.ค.</div>
 
-                                    </div>
                                 </th>
                                 <th class="p-0">
-                                    <div class="text-center border-bottom">มิ.ย.</div>
-                                    <div class="d-flex w-100 text-center">
-                                        <div class="trr">ค่าใช้จ่าย</div>
+                                    <div class="text-center">มิ.ย.</div>
 
-                                    </div>
                                 </th>
                                 <th class="p-0">
-                                    <div class="text-center border-bottom">ก.ค.</div>
-                                    <div class="d-flex w-100 text-center">
-                                        <div class="trr">ค่าใช้จ่าย</div>
+                                    <div class="text-center">ก.ค.</div>
 
-                                    </div>
                                 </th>
                                 <th class="p-0">
-                                    <div class="text-center border-bottom">ส.ค.</div>
-                                    <div class="d-flex w-100 text-center">
-                                        <div class="trr">ค่าใช้จ่าย</div>
+                                    <div class="text-center">ส.ค.</div>
 
-                                    </div>
                                 </th>
                                 <th class="p-0">
-                                    <div class="text-center border-bottom">ก.ย.</div>
-                                    <div class="d-flex w-100 text-center">
-                                        <div class="trr">ค่าใช้จ่าย</div>
+                                    <div class="text-center">ก.ย.</div>
 
-                                    </div>
                                 </th>
                                 <th class="p-0">
-                                    <div class="text-center border-bottom">ต.ค.</div>
-                                    <div class="d-flex w-100 text-center">
-                                        <div class="trr">ค่าใช้จ่าย</div>
-                                    </div>
+                                    <div class="text-center">ต.ค.</div>
+
                                 </th>
                                 <th class="p-0">
-                                    <div class="text-center border-bottom">พ.ย.</div>
-                                    <div class="d-flex w-100 text-center">
-                                        <div class="trr">ค่าใช้จ่าย</div>
-                                    </div>
+                                    <div class="text-center">พ.ย.</div>
+
                                 </th>
                                 <th class="p-0">
-                                    <div class="text-center border-bottom">ธ.ค.</div>
-                                    <div class="d-flex w-100 text-center">
-                                        <div class="trr">ค่าใช้จ่าย</div>
-                                    </div>
+                                    <div class="text-center">ธ.ค.</div>
+
                                 </th>
-                                <th class="p-0 items-center text-center">
+                                <th class="p-0 items-center text-center" style="background-color: #f3f4f6;">
                                     รวม
                                 </th>
                             </tr>
@@ -272,102 +246,62 @@
                 <table class="table table-bordered" style="overflow-x: auto;" id="cost-dt">
                     <thead>
                         <tr>
-                            <th class="index sticky-col first-col"></th>
-                            <th scope="col" class="sticky-col second-col"
-                                style="align-content: center;text-align: center;">
+                            <th class="index sticky-col first-col bg-gray-100" style="background-color: #f3f4f6;">#</th>
+                            <th scope="col" class="sticky-col second-col  bg-gray-100"
+                                style="align-content: center;text-align: center;background-color: #f3f4f6;">
                                 <div>ประเภทค่าใช้จ่าย</div>
                             </th>
-                            <th colspan="2" class="p-0 w-250">
-                                <div class="text-center border-bottom">รวม</div>
-                                <div class="d-flex w-100 text-center">
-                                    <div class="trr border-end">ค่าใช้จ่าย</div>
-                                    <div class="trr">ค้างจ่าย</div>
-                                </div>
-                            </th>
-                            <th colspan="2" class="p-0">
-                                <div class="text-center border-bottom">ม.ค.</div>
-                                <div class="d-flex w-100 text-center">
-                                    <div class="trr border-end">ค่าใช้จ่าย</div>
-                                    <div class="trr">ค้างจ่าย</div>
-                                </div>
+
+                            <th class="p-0 bg-gray-100 min-w-100" style="background-color: #f3f4f6;">
+                                <div class="text-center">ม.ค.</div>
                             </th>
 
-                            <th colspan="2" class="p-0">
-                                <div class="text-center border-bottom">ก.พ.</div>
-                                <div class="d-flex w-100 text-center">
-                                    <div class="trr border-end">ค่าใช้จ่าย</div>
-                                    <div class="trr">ค้างจ่าย</div>
-                                </div>
+                            <th class="p-0 bg-gray-100 min-w-100" style="background-color: #f3f4f6;">
+                                <div class="text-center">ก.พ.</div>
+
                             </th>
-                            <th colspan="2" class="p-0">
-                                <div class="text-center border-bottom">มี.ค.</div>
-                                <div class="d-flex w-100 text-center">
-                                    <div class="trr border-end">ค่าใช้จ่าย</div>
-                                    <div class="trr">ค้างจ่าย</div>
-                                </div>
+                            <th class="p-0 bg-gray-100 min-w-100" style="background-color: #f3f4f6;">
+                                <div class="text-center">มี.ค.</div>
+
                             </th>
-                            <th colspan="2" class="p-0">
-                                <div class="text-center border-bottom">เม.ย.</div>
-                                <div class="d-flex w-100 text-center">
-                                    <div class="trr border-end">ค่าใช้จ่าย</div>
-                                    <div class="trr">ค้างจ่าย</div>
-                                </div>
+                            <th class="p-0 bg-gray-100 min-w-100" style="background-color: #f3f4f6;">
+                                <div class="text-center">เม.ย.</div>
+
                             </th>
-                            <th colspan="2" class="p-0">
-                                <div class="text-center border-bottom">พ.ค.</div>
-                                <div class="d-flex w-100 text-center">
-                                    <div class="trr border-end">ค่าใช้จ่าย</div>
-                                    <div class="trr">ค้างจ่าย</div>
-                                </div>
+                            <th class="p-0 bg-gray-100 min-w-100" style="background-color: #f3f4f6;">
+                                <div class="text-center">พ.ค.</div>
+
                             </th>
-                            <th colspan="2" class="p-0">
-                                <div class="text-center border-bottom">มิ.ย.</div>
-                                <div class="d-flex w-100 text-center">
-                                    <div class="trr border-end">ค่าใช้จ่าย</div>
-                                    <div class="trr">ค้างจ่าย</div>
-                                </div>
+                            <th class="p-0 bg-gray-100 min-w-100" style="background-color: #f3f4f6;">
+                                <div class="text-center">มิ.ย.</div>
+
                             </th>
-                            <th colspan="2" class="p-0">
-                                <div class="text-center border-bottom">ก.ค.</div>
-                                <div class="d-flex w-100 text-center">
-                                    <div class="trr border-end">ค่าใช้จ่าย</div>
-                                    <div class="trr">ค้างจ่าย</div>
-                                </div>
+                            <th class="p-0 bg-gray-100 min-w-100" style="background-color: #f3f4f6;">
+                                <div class="text-center">ก.ค.</div>
+
                             </th>
-                            <th colspan="2" class="p-0">
-                                <div class="text-center border-bottom">ส.ค.</div>
-                                <div class="d-flex w-100 text-center">
-                                    <div class="trr border-end">ค่าใช้จ่าย</div>
-                                    <div class="trr">ค้างจ่าย</div>
-                                </div>
+                            <th class="p-0 bg-gray-100 min-w-100" style="background-color: #f3f4f6;">
+                                <div class="text-center">ส.ค.</div>
+
                             </th>
-                            <th colspan="2" class="p-0">
-                                <div class="text-center border-bottom">ก.ย.</div>
-                                <div class="d-flex w-100 text-center">
-                                    <div class="trr border-end">ค่าใช้จ่าย</div>
-                                    <div class="trr">ค้างจ่าย</div>
-                                </div>
+                            <th class="p-0 bg-gray-100 min-w-100" style="background-color: #f3f4f6;">
+                                <div class="text-center">ก.ย.</div>
+
                             </th>
-                            <th colspan="2" class="p-0">
-                                <div class="text-center border-bottom">ต.ค.</div>
-                                <div class="d-flex w-100 text-center">
-                                    <div class="trr border-end">ค่าใช้จ่าย</div>
-                                    <div class="trr">ค้างจ่าย</div>
-                                </div>
+                            <th class="p-0 bg-gray-100 min-w-100" style="background-color: #f3f4f6;">
+                                <div class="text-center">ต.ค.</div>
+
                             </th>
-                            <th colspan="2" class="p-0">
-                                <div class="text-center border-bottom">พ.ย.</div>
-                                <div class="d-flex w-100 text-center">
-                                    <div class="trr border-end">ค่าใช้จ่าย</div>
-                                    <div class="trr">ค้างจ่าย</div>
-                                </div>
+                            <th class="p-0 bg-gray-100 min-w-100" style="background-color: #f3f4f6;">
+                                <div class="text-center">พ.ย.</div>
                             </th>
-                            <th colspan="2" class="p-0">
-                                <div class="text-center border-bottom">ธ.ค.</div>
-                                <div class="d-flex w-100 text-center">
-                                    <div class="trr border-end">ค่าใช้จ่าย</div>
-                                    <div class="trr">ค้างจ่าย</div>
-                                </div>
+                            <th class="p-0 bg-gray-100 min-w-100" style="background-color: #f3f4f6;">
+                                <div class="text-center">ธ.ค.</div>
+
+                            </th>
+                            <th class="p-0 min-w-200 bg-gray-100" style="background-color: #f3f4f6;">
+                                <div class="text-center">รวม</div>
+
                             </th>
                         </tr>
                     </thead>
@@ -376,19 +310,6 @@
                         <tr>
                             <td class="sticky-col first-col">1.</td>
                             <td class="sticky-col second-col text-start">กำลังโหลด...</td>
-                            <td>กำลังโหลด...</td>
-                            <td>กำลังโหลด...</td>
-                            <td>กำลังโหลด...</td>
-                            <td>กำลังโหลด...</td>
-                            <td>กำลังโหลด...</td>
-                            <td>กำลังโหลด...</td>
-                            <td>กำลังโหลด...</td>
-                            <td>กำลังโหลด...</td>
-                            <td>กำลังโหลด...</td>
-                            <td>กำลังโหลด...</td>
-                            <td>กำลังโหลด...</td>
-                            <td>กำลังโหลด...</td>
-                            <td>กำลังโหลด...</td>
                             <td>กำลังโหลด...</td>
                             <td>กำลังโหลด...</td>
                             <td>กำลังโหลด...</td>
@@ -444,33 +365,19 @@
                                         <tr class="msgRow" onclick="bgtr(this)">
                                             <td class="sticky-col first-col">${index + 1}.</td>
                                             <td class="sticky-col second-col text-start">${item.nameType || ''}</td>
-                                            <td>${formatNumber(item.dTotal_1)}</td>
-                                            <td>${formatNumber(item.dTotal_2)}</td>
                                             <td>${formatNumber(item.Md1_1)}</td>
-                                            <td>${formatNumber(item.Md1_2)}</td>
                                             <td>${formatNumber(item.Md2_1)}</td>
-                                            <td>${formatNumber(item.Md2_2)}</td>
                                             <td>${formatNumber(item.Md3_1)}</td>
-                                            <td>${formatNumber(item.Md3_2)}</td>
                                             <td>${formatNumber(item.Md4_1)}</td>
-                                            <td>${formatNumber(item.Md4_2)}</td>
                                             <td>${formatNumber(item.Md5_1)}</td>
-                                            <td>${formatNumber(item.Md5_2)}</td>
                                             <td>${formatNumber(item.Md6_1)}</td>
-                                            <td>${formatNumber(item.Md6_2)}</td>
                                             <td>${formatNumber(item.Md7_1)}</td>
-                                            <td>${formatNumber(item.Md7_2)}</td>
                                             <td>${formatNumber(item.Md8_1)}</td>
-                                            <td>${formatNumber(item.Md8_2)}</td>
                                             <td>${formatNumber(item.Md9_1)}</td>
-                                            <td>${formatNumber(item.Md9_2)}</td>
                                             <td>${formatNumber(item.Md10_1)}</td>
-                                            <td>${formatNumber(item.Md10_2)}</td>
                                             <td>${formatNumber(item.Md11_1)}</td>
-                                            <td>${formatNumber(item.Md11_2)}</td>
                                             <td>${formatNumber(item.Md12_1)}</td>
-                                            <td>${formatNumber(item.Md12_2)}</td>
-
+                                            <td>${formatNumber(item.dTotal_1)}</td>
                                         </tr>
                                     `;
                                     setTimeout(function() {
@@ -479,14 +386,14 @@
                                 });
                             } else {
                                 tbody.append(
-                                    '<tr><td colspan="24">No data available</td></tr>'
+                                    '<tr><td colspan="12">No data available</td></tr>'
                                 );
                             }
                         } else {
                             console.error('Expected array but received:',
                                 typeof response, response);
                             $('#cost-dt tbody').append(
-                                '<tr><td colspan="24">Unexpected data format</td></tr>'
+                                '<tr><td colspan="12">Unexpected data format</td></tr>'
                             );
                         }
                     } else {
@@ -501,8 +408,8 @@
         }
 
         function fetch_upa_mt() {
-            const idComp = [3, 4];
-            // '{{ session('idComp') }}';
+            const idComp = '{{ session('idComp') }}';
+            //
             const year = '{{ session('year') }}';
 
             $.ajax({
@@ -544,7 +451,7 @@
                                         monthlyTotals[i - 1] += parseFloat(value1);
                                     }
                                     row += `
-                <td>${value1 ? formatNumber(value1) : '-'}</td>
+                <td>${value1 ? formatNumber(value1) : ''}</td>
             `;
                                 }
                                 row += `<td>${formatNumber(company.Total_1)}</td></tr>`;

@@ -50,7 +50,28 @@ class UPAController extends Controller
     }
     public function show()
     {
-        return view('upa');
+        $years = DB::select("
+            SELECT DISTINCT
+                CASE
+                    WHEN LEN(YM) = 6 THEN LEFT(YM, 4)
+                    WHEN LEN(YM) = 4 THEN YM
+                    ELSE SUBSTRING(YM, 1, 4)
+                END AS year
+            FROM vVoucherMt
+            WHERE idComp IN (
+                SELECT idcomp FROM PchInvAndProject.devsk.dGroupCompMap
+                WHERE idcomp IN (
+                    SELECT idcomp FROM [PchInvAndProject].[devsk].[dGroupCompMap]
+                    WHERE stActive = 1
+                ) AND stActive = 1
+            )
+            AND Total IS NOT NULL
+            AND Total <> 0
+            ORDER BY year DESC
+        ");
+
+
+        return view('upa', compact('years'));
     }
 
     public function cost_dt($idComp, $year)
@@ -58,377 +79,24 @@ class UPAController extends Controller
         try {
             $cost = DB::select("
 				SELECT
-					Nt.nameType,
-					Nt.sysModule,
-					3 AS idComp,
-					ISNULL(
-						(
-						SELECT SUM
-							( Total )
-						FROM
-							vVoucherMt AS Mt
-						WHERE
-							Nt.sysModule= Mt.sysModule
-							AND Mt.idComp = $idComp
-							AND stGetBank = '1'
-							AND YM LIKE '%" . $year . "01'
-						),
-						0
-					) AS Md1_1,
-					ISNULL(
-						(
-						SELECT SUM
-							( Total )
-						FROM
-							vVoucherMt AS Mt
-						WHERE
-							Nt.sysModule= Mt.sysModule
-							AND Mt.idComp = $idComp
-							AND stGetBank IS NULL
-							AND YM LIKE '%" . $year . "01'
-						),
-						0
-					) AS Md1_2,
-					ISNULL(
-						(
-						SELECT SUM
-							( Total )
-						FROM
-							vVoucherMt AS Mt
-						WHERE
-							Nt.sysModule= Mt.sysModule
-							AND Mt.idComp = $idComp
-							AND stGetBank = '1'
-							AND YM LIKE '%" . $year . "02'
-						),
-						0
-					) AS Md2_1,
-					ISNULL(
-						(
-						SELECT SUM
-							( Total )
-						FROM
-							vVoucherMt AS Mt
-						WHERE
-							Nt.sysModule= Mt.sysModule
-							AND Mt.idComp = $idComp
-							AND stGetBank IS NULL
-							AND YM LIKE '%" . $year . "02'
-						),
-						0
-					) AS Md2_2,
-					ISNULL(
-						(
-						SELECT SUM
-							( Total )
-						FROM
-							vVoucherMt AS Mt
-						WHERE
-							Nt.sysModule= Mt.sysModule
-							AND Mt.idComp = $idComp
-							AND stGetBank = '1'
-							AND YM LIKE '%" . $year . "03'
-						),
-						0
-					) AS Md3_1,
-					ISNULL(
-						(
-						SELECT SUM
-							( Total )
-						FROM
-							vVoucherMt AS Mt
-						WHERE
-							Nt.sysModule= Mt.sysModule
-							AND Mt.idComp = $idComp
-							AND stGetBank IS NULL
-							AND YM LIKE '%" . $year . "03'
-						),
-						0
-					) AS Md3_2,
-					ISNULL(
-						(
-						SELECT SUM
-							( Total )
-						FROM
-							vVoucherMt AS Mt
-						WHERE
-							Nt.sysModule= Mt.sysModule
-							AND Mt.idComp = $idComp
-							AND stGetBank = '1'
-							AND YM LIKE '%" . $year . "04'
-						),
-						0
-					) AS Md4_1,
-					ISNULL(
-						(
-						SELECT SUM
-							( Total )
-						FROM
-							vVoucherMt AS Mt
-						WHERE
-							Nt.sysModule= Mt.sysModule
-							AND Mt.idComp = $idComp
-							AND stGetBank IS NULL
-							AND YM LIKE '%" . $year . "04'
-						),
-						0
-					) AS Md4_2,
-					ISNULL(
-						(
-						SELECT SUM
-							( Total )
-						FROM
-							vVoucherMt AS Mt
-						WHERE
-							Nt.sysModule= Mt.sysModule
-							AND Mt.idComp = $idComp
-							AND stGetBank = '1'
-							AND YM LIKE '%" . $year . "05'
-						),
-						0
-					) AS Md5_1,
-					ISNULL(
-						(
-						SELECT SUM
-							( Total )
-						FROM
-							vVoucherMt AS Mt
-						WHERE
-							Nt.sysModule= Mt.sysModule
-							AND Mt.idComp = $idComp
-							AND stGetBank IS NULL
-							AND YM LIKE '%" . $year . "05'
-						),
-						0
-					) AS Md5_2,
-					ISNULL(
-						(
-						SELECT SUM
-							( Total )
-						FROM
-							vVoucherMt AS Mt
-						WHERE
-							Nt.sysModule= Mt.sysModule
-							AND Mt.idComp = $idComp
-							AND stGetBank = '1'
-							AND YM LIKE '%" . $year . "06'
-						),
-						0
-					) AS Md6_1,
-					ISNULL(
-						(
-						SELECT SUM
-							( Total )
-						FROM
-							vVoucherMt AS Mt
-						WHERE
-							Nt.sysModule= Mt.sysModule
-							AND Mt.idComp = $idComp
-							AND stGetBank IS NULL
-							AND YM LIKE '%" . $year . "06'
-						),
-						0
-					) AS Md6_2,
-					ISNULL(
-						(
-						SELECT SUM
-							( Total )
-						FROM
-							vVoucherMt AS Mt
-						WHERE
-							Nt.sysModule= Mt.sysModule
-							AND Mt.idComp = $idComp
-							AND stGetBank = '1'
-							AND YM LIKE '%" . $year . "07'
-						),
-						0
-					) AS Md7_1,
-					ISNULL(
-						(
-						SELECT SUM
-							( Total )
-						FROM
-							vVoucherMt AS Mt
-						WHERE
-							Nt.sysModule= Mt.sysModule
-							AND Mt.idComp = $idComp
-							AND stGetBank IS NULL
-							AND YM LIKE '%" . $year . "07'
-						),
-						0
-					) AS Md7_2,
-					ISNULL(
-						(
-						SELECT SUM
-							( Total )
-						FROM
-							vVoucherMt AS Mt
-						WHERE
-							Nt.sysModule= Mt.sysModule
-							AND Mt.idComp = $idComp
-							AND stGetBank = '1'
-							AND YM LIKE '%" . $year . "08'
-						),
-						0
-					) AS Md8_1,
-					ISNULL(
-						(
-						SELECT SUM
-							( Total )
-						FROM
-							vVoucherMt AS Mt
-						WHERE
-							Nt.sysModule= Mt.sysModule
-							AND Mt.idComp = $idComp
-							AND stGetBank IS NULL
-							AND YM LIKE '%" . $year . "08'
-						),
-						0
-					) AS Md8_2,
-					ISNULL(
-						(
-						SELECT SUM
-							( Total )
-						FROM
-							vVoucherMt AS Mt
-						WHERE
-							Nt.sysModule= Mt.sysModule
-							AND Mt.idComp = $idComp
-							AND stGetBank = '1'
-							AND YM LIKE '%" . $year . "09'
-						),
-						0
-					) AS Md9_1,
-					ISNULL(
-						(
-						SELECT SUM
-							( Total )
-						FROM
-							vVoucherMt AS Mt
-						WHERE
-							Nt.sysModule= Mt.sysModule
-							AND Mt.idComp = $idComp
-							AND stGetBank IS NULL
-							AND YM LIKE '%" . $year . "09'
-						),
-						0
-					) AS Md9_2,
-					ISNULL(
-						(
-						SELECT SUM
-							( Total )
-						FROM
-							vVoucherMt AS Mt
-						WHERE
-							Nt.sysModule= Mt.sysModule
-							AND Mt.idComp = $idComp
-							AND stGetBank = '1'
-							AND YM LIKE '%" . $year . "10'
-						),
-						0
-					) AS Md10_1,
-					ISNULL(
-						(
-						SELECT SUM
-							( Total )
-						FROM
-							vVoucherMt AS Mt
-						WHERE
-							Nt.sysModule= Mt.sysModule
-							AND Mt.idComp = $idComp
-							AND stGetBank IS NULL
-							AND YM LIKE '%" . $year . "10'
-						),
-						0
-					) AS Md10_2,
-					ISNULL(
-						(
-						SELECT SUM
-							( Total )
-						FROM
-							vVoucherMt AS Mt
-						WHERE
-							Nt.sysModule= Mt.sysModule
-							AND Mt.idComp = $idComp
-							AND stGetBank = '1'
-							AND YM LIKE '%" . $year . "11'
-						),
-						0
-					) AS Md11_1,
-					ISNULL(
-						(
-						SELECT SUM
-							( Total )
-						FROM
-							vVoucherMt AS Mt
-						WHERE
-							Nt.sysModule= Mt.sysModule
-							AND Mt.idComp = $idComp
-							AND stGetBank IS NULL
-							AND YM LIKE '%" . $year . "11'
-						),
-						0
-					) AS Md11_2,
-					ISNULL(
-						(
-						SELECT SUM
-							( Total )
-						FROM
-							vVoucherMt AS Mt
-						WHERE
-							Nt.sysModule= Mt.sysModule
-							AND Mt.idComp = $idComp
-							AND stGetBank = '1'
-							AND YM LIKE '%" . $year . "12'
-						),
-						0
-					) AS Md12_1,
-					ISNULL(
-						(
-						SELECT SUM
-							( Total )
-						FROM
-							vVoucherMt AS Mt
-						WHERE
-							Nt.sysModule= Mt.sysModule
-							AND Mt.idComp = $idComp
-							AND stGetBank IS NULL
-							AND YM LIKE '%" . $year . "12'
-						),
-						0
-					) AS Md12_2,
-					ISNULL(
-						(
-						SELECT SUM
-							( Total )
-						FROM
-							vVoucherMt AS Mt
-						WHERE
-							Nt.sysModule= Mt.sysModule
-							AND Mt.idComp = $idComp
-							AND stGetBank = '1'
-							AND YM LIKE '%" . $year . "%'
-						),
-						0
-					) AS dTotal_1,
-					ISNULL(
-						(
-						SELECT SUM
-							( Total )
-						FROM
-							vVoucherMt AS Mt
-						WHERE
-							Nt.sysModule= Mt.sysModule
-							AND Mt.idComp = $idComp
-							AND stGetBank IS NULL
-							AND YM LIKE '%" . $year . "%'
-						),
-						0
-					) AS dTotal_2
-				FROM
-					ExpNumType AS Nt
-				ORDER BY
-					idType ASC
+                    Nt.nameType,
+                    Nt.sysModule,
+                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule AND Mt.idComp in (" . $idComp . ") And YM Like '%" . $year . "01') AS Md1_1,
+                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule AND Mt.idComp in (" . $idComp . ") And YM Like '%" . $year . "02') AS Md2_1,
+                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule AND Mt.idComp in (" . $idComp . ") And YM Like '%" . $year . "03') AS Md3_1,
+                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule AND Mt.idComp in (" . $idComp . ") And YM Like '%" . $year . "04') AS Md4_1,
+                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule AND Mt.idComp in (" . $idComp . ") And YM Like '%" . $year . "05') AS Md5_1,
+                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule AND Mt.idComp in (" . $idComp . ") And YM Like '%" . $year . "06') AS Md6_1,
+                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule AND Mt.idComp in (" . $idComp . ") And YM Like '%" . $year . "07') AS Md7_1,
+                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule AND Mt.idComp in (" . $idComp . ") And YM Like '%" . $year . "08') AS Md8_1,
+                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule AND Mt.idComp in (" . $idComp . ") And YM Like '%" . $year . "09') AS Md9_1,
+                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule AND Mt.idComp in (" . $idComp . ") And YM Like '%" . $year . "10') AS Md10_1,
+                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule AND Mt.idComp in (" . $idComp . ") And YM Like '%" . $year . "11') AS Md11_1,
+                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule AND Mt.idComp in (" . $idComp . ") And YM Like '%" . $year . "12') AS Md12_1,
+                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule AND Mt.idComp in (" . $idComp . ") And YM Like '%" . $year . "%') AS dTotal_1
+                FROM ExpNumType AS Nt
+                WHERE Nt.UPA='1'
+                ORDER BY idType ASC
 			");
 
             if ($cost) {
