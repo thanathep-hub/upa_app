@@ -26,6 +26,7 @@ class UPAController extends Controller
                     pddg.idcomp
             ");
             if ($query) {
+                session(['group' => 'test']);
                 return response()->json([
                     'status' => 'success',
                     'msg' => 'Company retrieved successfully',
@@ -44,6 +45,7 @@ class UPAController extends Controller
     }
     public function compSessionSet($idSidebar, $idComp)
     {
+        session(['group' => 'compSessionSet']);
         session(['idComp' => $idComp]);
         session(['GroupSidebar' => $idSidebar]);
         return redirect('/');

@@ -145,7 +145,7 @@
         </div>
         <div class="row">
             <div class="col-auto w-160">
-                <span style="font-weight: 500;">ค่าใช้จ่าย</span>
+                <span style="font-weight: 500;">ค่าใช้จ่าย {{ session('group') }}</span>
                 <h5 style="color: #eab308;font-family: 'Kanit', sans-serif;" id="expenses">00.00</h5>
             </div>
             {{-- <div class="col-auto w-160">
@@ -450,11 +450,11 @@
                                     if (value1) {
                                         monthlyTotals[i - 1] += parseFloat(value1);
                                     }
-                                    row += `
-                <td>${value1 ? formatNumber(value1) : ''}</td>
-            `;
+                                    // row += `
+                                //     <td>${value1 ? formatNumber(value1) : ''}</td>
+                                // `;
                                 }
-                                row += `<td>${formatNumber(company.Total_1)}</td></tr>`;
+                                // row += `<td>${formatNumber(company.Total_1)}</td></tr>`;
                                 grandTotal += parseFloat(company.Total_1);
 
                                 setTimeout(() => {
@@ -463,7 +463,7 @@
                             });
 
                             // Add total row with text cell at the end
-                            let totalRow = '<tr class="table-warning fw-bold">';
+                            let totalRow = '<tr>';
                             for (let i = 0; i < 12; i++) {
                                 totalRow += `<td>${formatNumber(monthlyTotals[i])}</td>`;
                             }

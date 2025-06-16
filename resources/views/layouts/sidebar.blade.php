@@ -161,21 +161,16 @@
              </a>
          </li>
      </ul>
-     <!-- Sidebar Navigation Ends -->
-     {{-- <div class="sidebar-footer">
-         <a href="/logout" class="sidebar-link">
-             <i class="fa-solid fa-right-from-bracket fa-flip-horizontal"></i>
-             ออกจากระบบ
-         </a>
-     </div> --}}
  </aside>
  <!-- Sidebar Ends -->
  @push('script')
      <script>
          var groupComp = {{ session('GroupSidebar') }};
+         var comSelect = @json(session('idComp'));
 
+         //  var groupComp = @json(session('GroupSidebar'));
+         //  var comSelect = @json(session('idComp'));
 
-         var comSelect = {{ session('idComp') }};
          $(document).ready(function() {
 
              if (groupComp === 1) {
@@ -195,6 +190,7 @@
          });
 
          function fetch_comp_session() {
+             // AV Group (Group 1)
              $.ajax({
                  type: "get",
                  url: "/fetch/comp_session/1",
@@ -204,26 +200,51 @@
                          let av = $('#av-group');
                          av.empty();
 
+                         let allCompIds = Array.isArray(comp) ? comp.map(item => item.idcomp).join(',') : '';
+
+                         // เปรียบเทียบแบบง่าย - ไม่สนใจลำดับ
+                         let allCompIdsSet = new Set(allCompIds.split(','));
+                         let comSelectSet = new Set(comSelect.toString().split(','));
+                         let isAllCompaniesSelected = allCompIdsSet.size === comSelectSet.size && [...
+                             allCompIdsSet
+                         ].every(id => comSelectSet.has(id));
+
+                         let all = `
+                    <li class="sidebar-item m-2 ${isAllCompaniesSelected ? 'active' : ''}" style="border-radius:12px;">
+                        <a href="/set/session/comp/1/${allCompIds}" class="sidebar-link">ทุกบริษัท</a>
+                    </li>
+                `;
+
+                         setTimeout(function() {
+                             av.append(all);
+                         }, 0);
+
                          if (Array.isArray(comp)) {
                              if (comp.length > 0) {
                                  comp.forEach((item, index) => {
+                                     // แปลงเป็น string เพื่อเปรียบเทียบ
+                                     let selected = !isAllCompaniesSelected && comSelectSet.has(item
+                                         .idcomp.toString());
+
                                      let row = `
-                                        <li class="sidebar-item m-2 ${item.idcomp == comSelect ? 'active' : ''}" style="border-radius:12px;">
-                                            <a href="/set/session/comp/1/${item.idcomp}" class="sidebar-link">${item.CompName || ''}</a>
-                                        </li>
-                                    `;
+                                <li class="sidebar-item m-2 ${selected ? 'active' : ''}" style="border-radius:12px;">
+                                    <a href="/set/session/comp/1/${item.idcomp}" class="sidebar-link">${item.CompName || ''}</a>
+                                </li>
+                            `;
                                      setTimeout(function() {
                                          av.append(row);
-                                     }, index * 50);
+                                     }, (index + 1) * 50);
                                  });
-                             } else {
-                                 av.append(``);
                              }
                          }
                      }
+                 },
+                 error: function(xhr, status, error) {
+                     console.error('AV Group AJAX Error:', error);
                  }
              });
 
+             // GR Group (Group 2)
              $.ajax({
                  type: "get",
                  url: "/fetch/comp_session/2",
@@ -233,26 +254,52 @@
                          let gr = $('#gr-group');
                          gr.empty();
 
+                         let allCompIds = Array.isArray(comp) ? comp.map(item => item.idcomp).join(',') : '';
+
+                         // เปรียบเทียบแบบง่าย - ไม่สนใจลำดับ
+                         let allCompIdsSet = new Set(allCompIds.split(','));
+                         let comSelectSet = new Set(comSelect.toString().split(','));
+                         let isAllCompaniesSelected = allCompIdsSet.size === comSelectSet.size && [...
+                             allCompIdsSet
+                         ].every(id => comSelectSet.has(id));
+
+                         let all = `
+                    <li class="sidebar-item m-2 ${isAllCompaniesSelected ? 'active' : ''}" style="border-radius:12px;">
+                        <a href="/set/session/comp/2/${allCompIds}" class="sidebar-link">ทุกบริษัท</a>
+                    </li>
+                `;
+
+                         setTimeout(function() {
+                             gr.append(all);
+                         }, 0);
+
                          if (Array.isArray(comp)) {
                              if (comp.length > 0) {
                                  comp.forEach((item, index) => {
+                                     // แปลงเป็น string เพื่อเปรียบเทียบ
+                                     let selected = !isAllCompaniesSelected && comSelectSet.has(item
+                                         .idcomp.toString());
+
                                      let row = `
-                                        <li class="sidebar-item m-2 ${item.idcomp == comSelect ? 'active' : ''}" style="border-radius:12px;">
-                                            <a href="/set/session/comp/2/${item.idcomp}" class="sidebar-link">${item.CompName || ''}</a>
-                                        </li>
-                                    `;
+                                <li class="sidebar-item m-2 ${selected ? 'active' : ''}" style="border-radius:12px;">
+                                    <a href="/set/session/comp/2/${item.idcomp}" class="sidebar-link">${item.CompName || ''}</a>
+                                </li>
+                            `;
+
                                      setTimeout(function() {
                                          gr.append(row);
-                                     }, index * 50);
+                                     }, (index + 1) * 50);
                                  });
-                             } else {
-                                 gr.append(``);
                              }
                          }
                      }
+                 },
+                 error: function(xhr, status, error) {
+                     console.error('GR Group AJAX Error:', error);
                  }
              });
 
+             // FL Group (Group 3)
              $.ajax({
                  type: "get",
                  url: "/fetch/comp_session/3",
@@ -262,23 +309,48 @@
                          let fl = $('#fl-group');
                          fl.empty();
 
+                         let allCompIds = Array.isArray(comp) ? comp.map(item => item.idcomp).join(',') : '';
+
+                         // เปรียบเทียบแบบง่าย - ไม่สนใจลำดับ
+                         let allCompIdsSet = new Set(allCompIds.split(','));
+                         let comSelectSet = new Set(comSelect.toString().split(','));
+                         let isAllCompaniesSelected = allCompIdsSet.size === comSelectSet.size && [...
+                             allCompIdsSet
+                         ].every(id => comSelectSet.has(id));
+
+                         let all = `
+                    <li class="sidebar-item m-2 ${isAllCompaniesSelected ? 'active' : ''}" style="border-radius:12px;">
+                        <a href="/set/session/comp/3/${allCompIds}" class="sidebar-link">ทุกบริษัท</a>
+                    </li>
+                `;
+
+                         setTimeout(function() {
+                             fl.append(all);
+                         }, 0);
+
                          if (Array.isArray(comp)) {
                              if (comp.length > 0) {
                                  comp.forEach((item, index) => {
+                                     // แปลงเป็น string เพื่อเปรียบเทียบ
+                                     let selected = !isAllCompaniesSelected && comSelectSet.has(item
+                                         .idcomp.toString());
+
                                      let row = `
-                                        <li class="sidebar-item m-2 ${item.idcomp == comSelect ? 'active' : ''}" style="border-radius:12px;">
-                                            <a href="/set/session/comp/3/${item.idcomp}" class="sidebar-link">${item.CompName || ''}</a>
-                                        </li>
-                                    `;
+                                <li class="sidebar-item m-2 ${selected ? 'active' : ''}" style="border-radius:12px;">
+                                    <a href="/set/session/comp/3/${item.idcomp}" class="sidebar-link">${item.CompName || ''}</a>
+                                </li>
+                            `;
+
                                      setTimeout(function() {
                                          fl.append(row);
-                                     }, index * 50);
+                                     }, (index + 1) * 50);
                                  });
-                             } else {
-                                 fl.append(``);
                              }
                          }
                      }
+                 },
+                 error: function(xhr, status, error) {
+                     console.error('FL Group AJAX Error:', error);
                  }
              });
          }
