@@ -429,9 +429,14 @@
                         console.log(total);
                         console.log('====================================');
 
-                        document.getElementById('name-comp-cost').innerText = response.data
-                            .map(item => item.CompName)
-                            .join(', ');
+                        if (response.data.length > 1) {
+                            document.getElementById('name-comp-cost').innerText = 'เครือ ' +
+                                '{{ session('group_name') }}';
+                        } else {
+                            document.getElementById('name-comp-cost').innerText = response.data[0].CompName;
+                        }
+
+
 
                         document.getElementById('expenses').innerText = '฿' +
                             formatNumber(total);

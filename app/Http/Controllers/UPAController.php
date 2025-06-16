@@ -26,7 +26,6 @@ class UPAController extends Controller
                     pddg.idcomp
             ");
             if ($query) {
-                session(['group' => 'test']);
                 return response()->json([
                     'status' => 'success',
                     'msg' => 'Company retrieved successfully',
@@ -43,9 +42,22 @@ class UPAController extends Controller
             //throw $th;
         }
     }
+
+    public function getCompName($id)
+    {
+        $result = DB::table('PchInvAndProject.devsk.dGroupCompMap as g')
+            ->select('g.id', 'g.groupName')
+            ->where('g.parentid', '=', 0)
+            ->where('g.stActive', '=', 1)
+            ->where('g.id', '=', $id)
+            ->first();
+
+        return $result ? $result->groupName : null;
+    }
+
     public function compSessionSet($idSidebar, $idComp)
     {
-        session(['group' => 'compSessionSet']);
+        session(['group_name' => $this->getCompName($idSidebar)]);
         session(['idComp' => $idComp]);
         session(['GroupSidebar' => $idSidebar]);
         return redirect('/');
@@ -72,6 +84,8 @@ class UPAController extends Controller
             ORDER BY year DESC
         ");
 
+
+        session(['group' => '']);
 
         return view('upa', compact('years'));
     }
