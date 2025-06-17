@@ -47,7 +47,7 @@
 
      .sidebar-header {
          font-size: .75rem;
-         padding: 1.5rem 1.5rem .375rem;
+         padding: .375rem 1.5rem .375rem;
      }
 
      a.sidebar-link {
