@@ -46,12 +46,12 @@
         }
 
         .btn-login {
-            background-color: #4F46E5;
-            border: #4F46E5;
+            background-color: #193cb8;
+            border: #193cb8;
         }
 
         .feedback {
-            color: #003fb1 !important;
+            color: #2b7fff !important;
             font-weight: 500;
         }
     </style>
@@ -62,7 +62,8 @@
         <div class="row">
             <div class="card p-4 shadow-lg border-0">
                 <div class="image-logo text-center mb-3">
-                    <img src="{{ asset('auth/logo-upa.png') }}" alt="" height="100px">
+                    <img src="{{ asset('auth/upa_logo_new.png') }}" alt="Utility Payment in Enterprise(UPA)"
+                        height="100px">
                 </div>
                 <form method="post" action="/login">
                     @csrf

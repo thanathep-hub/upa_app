@@ -118,7 +118,8 @@
  <!-- Sidebar -->
  <aside id="sidebar" class="sidebar-toggle">
      <div class="sidebar-logo">
-         <img src="{{ asset('auth/logo-upa.png') }}" style="height: 48px;">
+         <img src="{{ asset('auth/upa_logo_new.png') }}" style="height: 48px;border-radius:4px;background-color:#cbd5e1;"
+             alt="Utility Payment in Enterprise(UPA)">
      </div>
      <!-- Sidebar Navigation -->
      <ul class="sidebar-nav p-0">
