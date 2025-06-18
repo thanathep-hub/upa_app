@@ -215,7 +215,7 @@
                                     <div class="text-center">ธ.ค.</div>
 
                                 </th>
-                                <th class="p-0 items-center text-center" style="background-color: #f3f4f6;">
+                                <th class="p-0 items-center text-center" style="background-color: #b9f8cf;">
                                     รวม
                                 </th>
                             </tr>
@@ -299,7 +299,7 @@
                                 <div class="text-center">ธ.ค.</div>
 
                             </th>
-                            <th class="p-0 min-w-200 bg-gray-100" style="background-color: #f3f4f6;">
+                            <th class="p-0 min-w-200 bg-gray-100" style="background-color: #b9f8cf;">
                                 <div class="text-center">รวม</div>
 
                             </th>
@@ -377,7 +377,7 @@
                                             <td>${formatNumber(item.Md10_1)}</td>
                                             <td>${formatNumber(item.Md11_1)}</td>
                                             <td>${formatNumber(item.Md12_1)}</td>
-                                            <td>${formatNumber(item.dTotal_1)}</td>
+                                            <td style="background-color:#f0fdf4;">${formatNumber(item.dTotal_1)}</td>
                                         </tr>
                                     `;
                                     setTimeout(function() {
@@ -431,7 +431,7 @@
 
                         if (response.data.length > 1) {
                             document.getElementById('name-comp-cost').innerText = 'เครือ ' +
-                                '{{ session('group_name') }}';
+                                '{{ session('group_name') ?? 'ซีดส์กรุป' }}';
                         } else {
                             document.getElementById('name-comp-cost').innerText = response.data[0].CompName;
                         }
@@ -472,7 +472,8 @@
                             for (let i = 0; i < 12; i++) {
                                 totalRow += `<td>${formatNumber(monthlyTotals[i])}</td>`;
                             }
-                            totalRow += `<td>${formatNumber(grandTotal)}</td></tr>`;
+                            totalRow +=
+                                `<td style="background-color:#f0fdf4;">${formatNumber(total)}</td></tr>`;
 
                             setTimeout(() => {
                                 tbody.append(totalRow);

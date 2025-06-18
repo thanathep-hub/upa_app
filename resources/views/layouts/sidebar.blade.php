@@ -125,8 +125,15 @@
      <ul class="sidebar-nav p-0">
          <li class="sidebar-header">
              <span style="font-size: 12px;">ค่าใช้จ่าย</span>
-
          </li>
+         <li class="sidebar-item border-b border-gray-100 p-2 m-2" style="border-bottom:1px solid #dee2e6; ">
+             <a href="/set/session/comp/0/0" class="sidebar-link collapsed has-dropdown"
+                 @if (session('seed-group') === 'true') style="background-color:#111827; border-radius:12px;" @endif>
+                 <i class="fa-solid fa-building pe-2" @if (session('seed-group') === 'true') style="color: #fff;" @endif></i>
+                 <span @if (session('seed-group') === 'true') style="color: #fff;" @endif>Seed Group</span>
+             </a>
+         </li>
+
          <li class="sidebar-item">
              <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
                  data-bs-target="#av-group" aria-expanded="true" aria-controls="av-group">

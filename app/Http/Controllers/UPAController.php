@@ -57,6 +57,11 @@ class UPAController extends Controller
 
     public function compSessionSet($idSidebar, $idComp)
     {
+        if ($idSidebar == '0' || $idSidebar == 0) { // ใช้ == แทน ===
+            session(['seed-group' => 'true']);
+        } else {
+            session(['seed-group' => 'false']);
+        }
         session(['group_name' => $this->getCompName($idSidebar)]);
         session(['idComp' => $idComp]);
         session(['GroupSidebar' => $idSidebar]);
@@ -92,24 +97,29 @@ class UPAController extends Controller
 
     public function cost_dt($idComp, $year)
     {
+        $sql_where_text = "";
+        if (session('seed-group') !== 'true') {
+            $sql_where_text = " AND Mt.idComp in (" . $idComp . ")";
+        }
+
         try {
             $cost = DB::select("
 				SELECT
                     Nt.nameType,
                     Nt.sysModule,
-                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule AND Mt.idComp in (" . $idComp . ") And YM Like '%" . $year . "01') AS Md1_1,
-                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule AND Mt.idComp in (" . $idComp . ") And YM Like '%" . $year . "02') AS Md2_1,
-                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule AND Mt.idComp in (" . $idComp . ") And YM Like '%" . $year . "03') AS Md3_1,
-                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule AND Mt.idComp in (" . $idComp . ") And YM Like '%" . $year . "04') AS Md4_1,
-                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule AND Mt.idComp in (" . $idComp . ") And YM Like '%" . $year . "05') AS Md5_1,
-                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule AND Mt.idComp in (" . $idComp . ") And YM Like '%" . $year . "06') AS Md6_1,
-                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule AND Mt.idComp in (" . $idComp . ") And YM Like '%" . $year . "07') AS Md7_1,
-                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule AND Mt.idComp in (" . $idComp . ") And YM Like '%" . $year . "08') AS Md8_1,
-                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule AND Mt.idComp in (" . $idComp . ") And YM Like '%" . $year . "09') AS Md9_1,
-                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule AND Mt.idComp in (" . $idComp . ") And YM Like '%" . $year . "10') AS Md10_1,
-                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule AND Mt.idComp in (" . $idComp . ") And YM Like '%" . $year . "11') AS Md11_1,
-                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule AND Mt.idComp in (" . $idComp . ") And YM Like '%" . $year . "12') AS Md12_1,
-                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule AND Mt.idComp in (" . $idComp . ") And YM Like '%" . $year . "%') AS dTotal_1
+                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule $sql_where_text And YM Like '%" . $year . "01') AS Md1_1,
+                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule $sql_where_text And YM Like '%" . $year . "02') AS Md2_1,
+                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule $sql_where_text And YM Like '%" . $year . "03') AS Md3_1,
+                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule $sql_where_text And YM Like '%" . $year . "04') AS Md4_1,
+                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule $sql_where_text And YM Like '%" . $year . "05') AS Md5_1,
+                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule $sql_where_text And YM Like '%" . $year . "06') AS Md6_1,
+                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule $sql_where_text And YM Like '%" . $year . "07') AS Md7_1,
+                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule $sql_where_text And YM Like '%" . $year . "08') AS Md8_1,
+                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule $sql_where_text And YM Like '%" . $year . "09') AS Md9_1,
+                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule $sql_where_text And YM Like '%" . $year . "10') AS Md10_1,
+                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule $sql_where_text And YM Like '%" . $year . "11') AS Md11_1,
+                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule $sql_where_text And YM Like '%" . $year . "12') AS Md12_1,
+                    (SELECT SUM(Total) FROM vVoucherMt AS Mt WHERE Nt.sysModule=Mt.sysModule $sql_where_text And YM Like '%" . $year . "%') AS dTotal_1
                 FROM ExpNumType AS Nt
                 WHERE Nt.UPA='1'
                 ORDER BY idType ASC
@@ -135,6 +145,12 @@ class UPAController extends Controller
     }
     public function cost_mt($idComp, $year)
     {
+        $sql_where_text = "";
+
+        if (session('seed-group') !== 'true') {
+            $sql_where_text = "WHERE Com.idComp IN (SELECT idcomp FROM PchInvAndProject.devsk.dGroupCompMap WHERE idcomp IN (Select idcomp FROM [PchInvAndProject].[devsk].[dGroupCompMap] WHERE idcomp IN (" . $idComp . ") And stActive = 1)  AND stActive = 1) ";
+        }
+
         try {
             $cost_mt = collect(DB::select("
                 SELECT Com.idComp,Com.CompName,
@@ -152,7 +168,7 @@ class UPAController extends Controller
                 (SELECT SUM(Total) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND  YM Like '%" . $year . "12') AS M12_1,
                 (SELECT SUM(Total) FROM vVoucherMt WHERE Com.idComp= vVoucherMt.idComp AND  YM Like '%" . $year . "%') AS Total_1
                 FROM dCompany As Com
-                WHERE Com.idComp IN (SELECT idcomp FROM PchInvAndProject.devsk.dGroupCompMap WHERE idcomp IN (Select idcomp FROM [PchInvAndProject].[devsk].[dGroupCompMap] WHERE idcomp IN (" . $idComp . ") And stActive = 1)  AND stActive = 1)
+                $sql_where_text
                 ORDER BY Com.idComp ASC
             "));
 
