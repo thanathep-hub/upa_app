@@ -32,6 +32,7 @@ class AuthController extends Controller
             $login = collect(DB::select($query))->first();
             if ($login) {
 
+                session()->put("username", $login->PsNameF);
                 session()->put("user", $login);
                 session()->put("idComp", $login->idCompb);
                 session()->put("year", date('Y') + 543);

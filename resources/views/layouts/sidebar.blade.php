@@ -1,171 +1,281 @@
  <style>
+     /* ── Sidebar shell ── */
      #sidebar {
-         max-width: 264px;
-         min-width: 264px;
-         transition: all 0.35s ease-in-out;
-         /* background-color: #f8f8f9; */
-         background-color: #cbd5e1;
+         width: 256px;
+         min-width: 256px;
+         background: #ffffff;
+         border-right: 1px solid #e5e7eb;
          display: flex;
          flex-direction: column;
+         height: 100vh;
+         overflow-y: auto;
+         overflow-x: hidden;
+         transition: margin-left 0.3s ease-in-out;
+         flex-shrink: 0;
+     }
+
+     #sidebar::-webkit-scrollbar {
+         width: 4px;
+     }
+
+     #sidebar::-webkit-scrollbar-thumb {
+         background: #d1d5db;
+         border-radius: 4px;
      }
 
      #sidebar.collapsed {
-         margin-left: -264px;
+         margin-left: -256px;
      }
 
-     .toggler-btn {
-         background-color: transparent;
-         cursor: pointer;
-         border: 0;
+     /* ── Sidebar Logo ── */
+     .sidebar-logo {
+         padding: 1.125rem 1.25rem;
+         border-bottom: 1px solid #e2e8f0;
+         display: flex;
+         align-items: center;
+         gap: 0.625rem;
+         background: #ffffff;
+         border-bottom: 1px solid #f3f4f6;
      }
 
-     .toggler-btn i {
-         font-size: 1.75rem;
-         /* color: #808080; */
+     .sidebar-logo img {
+         background-color: transparent !important;
+         filter: none;
+         opacity: 1;
+     }
+
+     .sidebar-logo-label {
+         font-family: 'IBM Plex Sans Thai', sans-serif;
+         font-size: 0.8125rem;
+         font-weight: 700;
          color: #111827;
-         font-weight: 1000;
+         line-height: 1.2;
      }
 
-     .navbar {
-         padding: 1.15rem 1.5rem;
-         border-bottom: 1px solid gainsboro;
+     .sidebar-logo-sub {
+         font-size: 0.6875rem;
+         color: #9ca3af;
+         font-weight: 400;
      }
 
+     /* ── Nav container ── */
      .sidebar-nav {
          flex: 1 1 auto;
+         padding: 0.75rem 0.625rem;
      }
 
-     .sidebar-logo {
-         padding: 1rem 1rem;
-         text-align: center;
-     }
-
-     .sidebar-logo a {
-         font-weight: 800;
-         font-size: 1.5rem;
-     }
-
+     /* ── Section header ── */
      .sidebar-header {
-         font-size: .75rem;
-         padding: .375rem 1.5rem .375rem;
+         font-size: 0.6875rem;
+         font-weight: 600;
+         letter-spacing: 0.09em;
+         text-transform: uppercase;
+         color: #9ca3af;
+         padding: 0.5rem 0.625rem 0.375rem;
+         font-family: 'IBM Plex Sans Thai', sans-serif;
      }
 
+     /* ── Sidebar links ── */
      a.sidebar-link {
-         font-weight: 700;
-         padding: .625rem 1.625rem;
+         font-family: 'IBM Plex Sans Thai', sans-serif;
+         font-weight: 500;
+         font-size: 0.875rem;
+         padding: 0.575rem 0.75rem;
+         display: flex;
+         align-items: center;
+         gap: 0.625rem;
+         color: #374151;
+         border-radius: 8px;
+         transition: background 0.12s, color 0.12s;
          position: relative;
-         transition: all 0.35s;
-         display: block;
-         font-size: 1rem;
-         color: #111827;
+         white-space: nowrap;
+     }
+
+     a.sidebar-link i {
+         width: 16px;
+         text-align: center;
+         font-size: 0.875rem;
+         color: #9ca3af;
+         flex-shrink: 0;
+         transition: color 0.12s;
      }
 
      a.sidebar-link:hover {
-         background-color: #f9f6f630;
+         background-color: #f3f4f6;
+         color: #111827;
      }
 
+     a.sidebar-link:hover i {
+         color: #374151;
+     }
+
+     /* ── Active item ── */
+     .sidebar-item.active {
+         background: transparent;
+         box-shadow: none;
+     }
+
+     .sidebar-item.active>a.sidebar-link,
+     .sidebar-item.active a.sidebar-link {
+         background-color: #eef0fb;
+         color: #211e53 !important;
+         font-weight: 600;
+     }
+
+     .sidebar-item.active>a.sidebar-link i,
+     .sidebar-item.active a.sidebar-link i {
+         color: #211e53 !important;
+     }
+
+     .sidebar-item.active:hover a.sidebar-link {
+         background-color: #e0ddf5;
+     }
+
+     /* ── Collapse arrow ── */
      .sidebar-link[data-bs-toggle="collapse"]::after {
-         border: solid;
-         border-width: 0 .075rem .075rem 0;
+         border: solid #9ca3af;
+         border-width: 0 1.5px 1.5px 0;
          content: "";
          display: inline-block;
-         padding: 2px;
+         padding: 3px;
          position: absolute;
-         right: 1.5rem;
-         top: 1.4rem;
-         transform: rotate(-135deg);
-         transition: all .2s ease-out;
+         right: 0.75rem;
+         top: 50%;
+         transform: translateY(-60%) rotate(-135deg);
+         transition: transform 0.2s ease-out;
      }
 
      .sidebar-link[data-bs-toggle="collapse"].collapsed::after {
-         transform: rotate(45deg);
-         transition: all .2s ease-out;
+         transform: translateY(-40%) rotate(45deg);
      }
 
-     /* Screen size less than 768px */
+     /* ── Dropdown sub-items ── */
+     .sidebar-dropdown {
+         padding: 0.25rem 0 0.25rem 0.875rem;
+         margin-top: 2px;
+         border-left: 2px solid #e5e7eb;
+         margin-left: 1.25rem;
+     }
 
-     @media (max-width:768px) {
+     .sidebar-dropdown .sidebar-item a.sidebar-link {
+         font-size: 0.8375rem;
+         font-weight: 400;
+         padding: 0.475rem 0.625rem;
+         color: #64748b;
+     }
 
-         .sidebar-toggle {
-             margin-left: -264px;
+     .sidebar-dropdown .sidebar-item a.sidebar-link:hover {
+         background-color: #f3f4f6;
+         color: #111827;
+     }
+
+     .sidebar-dropdown .sidebar-item.active a.sidebar-link {
+         background-color: #eef0fb;
+         color: #211e53 !important;
+         font-weight: 600;
+     }
+
+     .sidebar-dropdown .sidebar-item.active a.sidebar-link i {
+         color: #211e53 !important;
+     }
+
+     /* ── Border separator ── */
+     .sidebar-item-separator {
+         border-top: 1px solid #f3f4f6;
+         margin: 0.625rem 0.625rem;
+     }
+
+     /* ── Logout at bottom ── */
+     .sidebar-logout a.sidebar-link {
+         color: #6b7280;
+         font-size: 0.875rem;
+     }
+
+     .sidebar-logout a.sidebar-link i {
+         color: #9ca3af;
+     }
+
+     .sidebar-logout a.sidebar-link:hover {
+         background-color: #fff1f2;
+         color: #dc2626;
+     }
+
+     .sidebar-logout a.sidebar-link:hover i {
+         color: #dc2626;
+     }
+
+     /* ── Responsive ── */
+     @media (max-width: 768px) {
+         #sidebar {
+             margin-left: -256px;
          }
 
          #sidebar.collapsed {
              margin-left: 0;
          }
      }
-
-     a.sidebar-link:hover {
-         background-color: #ffffff;
-         color: #111827 !important;
-         border-radius: 12px;
-     }
-
-     .active {
-         box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-         /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
-         background-color: #111827;
-
-         a.sidebar-link {
-             color: #fff;
-         }
-     }
-
-     .active:hover {
-         background-color: #6b7280;
-     }
  </style>
  <!-- Sidebar -->
  <aside id="sidebar" class="sidebar-toggle">
      <div class="sidebar-logo">
-         <img src="{{ asset('auth/upa_logo_new.png') }}" style="height: 48px;border-radius:4px;background-color:#cbd5e1;"
-             alt="Utility Payment in Enterprise(UPA)">
+         <img src="{{ asset('auth/upa_logo_new.png') }}" style="height: 32px;" alt="UPA">
+         <div>
+             <div class="sidebar-logo-label">UPA System</div>
+             <div class="sidebar-logo-sub">ค่าใช้จ่ายองค์กร</div>
+         </div>
      </div>
+
      <!-- Sidebar Navigation -->
-     <ul class="sidebar-nav p-0">
-         <li class="sidebar-header">
-             <span style="font-size: 12px;">ค่าใช้จ่าย</span>
-         </li>
-         <li class="sidebar-item border-b border-gray-100 p-2 m-2" style="border-bottom:1px solid #dee2e6; ">
-             <a href="/set/session/comp/0/0" class="sidebar-link collapsed has-dropdown"
-                 @if (session('seed-group') === 'true') style="background-color:#111827; border-radius:12px;" @endif>
-                 <i class="fa-solid fa-building pe-2" @if (session('seed-group') === 'true') style="color: #fff;" @endif></i>
-                 <span @if (session('seed-group') === 'true') style="color: #fff;" @endif>Seed Group</span>
+     <ul class="sidebar-nav p-0 m-0">
+         <li class="sidebar-header">ค่าใช้จ่าย</li>
+
+         {{-- Seed Group --}}
+         <li class="sidebar-item px-2 {{ session('seed-group') === 'true' ? 'active' : '' }}">
+             <a href="/set/session/comp/0/0" class="sidebar-link">
+                 <i class="fa-solid fa-layer-group"></i>
+                 <span>Seed Group</span>
              </a>
          </li>
 
-         <li class="sidebar-item">
-             <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-                 data-bs-target="#av-group" aria-expanded="true" aria-controls="av-group">
-                 <i class="fa-solid fa-building pe-2"></i>
+         {{-- AV Group --}}
+         <li class="sidebar-item px-2">
+             <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#av-group"
+                 aria-expanded="false" aria-controls="av-group">
+                 <i class="fa-solid fa-building"></i>
                  <span>AV Group</span>
              </a>
              <ul class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar" id="av-group">
              </ul>
          </li>
-         <li class="sidebar-item">
-             <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-                 data-bs-target="#gr-group" aria-expanded="true" aria-controls="gr-group">
-                 <i class="fa-solid fa-building pe-2"></i>
+
+         {{-- GR Group --}}
+         <li class="sidebar-item px-2">
+             <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#gr-group"
+                 aria-expanded="false" aria-controls="gr-group">
+                 <i class="fa-solid fa-building"></i>
                  <span>GR Group</span>
              </a>
              <ul class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar" id="gr-group">
              </ul>
          </li>
-         <li class="sidebar-item mb-3">
-             <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-                 data-bs-target="#fl-group" aria-expanded="true" aria-controls="fl-group">
-                 <i class="fa-solid fa-building pe-2"></i>
+
+         {{-- FL Group --}}
+         <li class="sidebar-item px-2">
+             <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#fl-group"
+                 aria-expanded="false" aria-controls="fl-group">
+                 <i class="fa-solid fa-building"></i>
                  <span>FL Group</span>
              </a>
              <ul class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar" id="fl-group">
              </ul>
          </li>
 
-         <li class="border-top pt-3">
+         {{-- Separator + Logout --}}
+         <li class="sidebar-item-separator mt-2"></li>
+         <li class="sidebar-item sidebar-logout px-2">
              <a href="/logout" class="sidebar-link">
-                 <i class="fa-solid fa-right-from-bracket fa-flip-horizontal ps-2"></i>
-                 ออกจากระบบ
+                 <i class="fa-solid fa-right-from-bracket"></i>
+                 <span>ออกจากระบบ</span>
              </a>
          </li>
      </ul>
@@ -218,7 +328,7 @@
                          ].every(id => comSelectSet.has(id));
 
                          let all = `
-                    <li class="sidebar-item m-2 ${isAllCompaniesSelected ? 'active' : ''}" style="border-radius:12px;">
+                    <li class="sidebar-item px-2 ${isAllCompaniesSelected ? 'active' : ''}">
                         <a href="/set/session/comp/1/${allCompIds}" class="sidebar-link">ทุกบริษัท</a>
                     </li>
                 `;
@@ -235,7 +345,7 @@
                                          .idcomp.toString());
 
                                      let row = `
-                                <li class="sidebar-item m-2 ${selected ? 'active' : ''}" style="border-radius:12px;">
+                                <li class="sidebar-item px-2 ${selected ? 'active' : ''}">
                                     <a href="/set/session/comp/1/${item.idcomp}" class="sidebar-link">${item.CompName || ''}</a>
                                 </li>
                             `;
@@ -272,7 +382,7 @@
                          ].every(id => comSelectSet.has(id));
 
                          let all = `
-                    <li class="sidebar-item m-2 ${isAllCompaniesSelected ? 'active' : ''}" style="border-radius:12px;">
+                    <li class="sidebar-item px-2 ${isAllCompaniesSelected ? 'active' : ''}">
                         <a href="/set/session/comp/2/${allCompIds}" class="sidebar-link">ทุกบริษัท</a>
                     </li>
                 `;
@@ -289,7 +399,7 @@
                                          .idcomp.toString());
 
                                      let row = `
-                                <li class="sidebar-item m-2 ${selected ? 'active' : ''}" style="border-radius:12px;">
+                                <li class="sidebar-item px-2 ${selected ? 'active' : ''}">
                                     <a href="/set/session/comp/2/${item.idcomp}" class="sidebar-link">${item.CompName || ''}</a>
                                 </li>
                             `;
@@ -327,7 +437,7 @@
                          ].every(id => comSelectSet.has(id));
 
                          let all = `
-                    <li class="sidebar-item m-2 ${isAllCompaniesSelected ? 'active' : ''}" style="border-radius:12px;">
+                    <li class="sidebar-item px-2 ${isAllCompaniesSelected ? 'active' : ''}">
                         <a href="/set/session/comp/3/${allCompIds}" class="sidebar-link">ทุกบริษัท</a>
                     </li>
                 `;
@@ -344,7 +454,7 @@
                                          .idcomp.toString());
 
                                      let row = `
-                                <li class="sidebar-item m-2 ${selected ? 'active' : ''}" style="border-radius:12px;">
+                                <li class="sidebar-item px-2 ${selected ? 'active' : ''}">
                                     <a href="/set/session/comp/3/${item.idcomp}" class="sidebar-link">${item.CompName || ''}</a>
                                 </li>
                             `;
