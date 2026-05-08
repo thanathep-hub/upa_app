@@ -4,7 +4,7 @@
     <style>
         /* ── Base ── */
         * {
-            font-family: 'IBM Plex Sans Thai', sans-serif;
+            font-family: 'Sarabun', sans-serif;
             font-size: 13.5px;
             color: #111827;
         }
@@ -290,7 +290,7 @@
             color: #6b7280;
             cursor: pointer;
             transition: background 0.15s, color 0.15s, border-color 0.15s;
-            font-family: 'IBM Plex Sans Thai', sans-serif;
+            font-family: 'Sarabun', sans-serif;
         }
 
         .detail-filter-btn:hover {
@@ -315,7 +315,7 @@
             color: #6b7280;
             cursor: pointer;
             transition: background 0.15s, color 0.15s, border-color 0.15s;
-            font-family: 'IBM Plex Sans Thai', sans-serif;
+            font-family: 'Sarabun', sans-serif;
         }
 
         .detail-filter-btn:hover {
@@ -512,9 +512,9 @@
 
     {{-- ── Line Chart card ── --}}
     <div class="table-card mb-4">
-        <div class="section-title" style="justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
+        <div class="section-title" style="flex-wrap:wrap;gap:0.5rem;">
             <span>กราฟค่าใช้จ่ายแยกประเภท</span>
-            <div id="chart-detail-filters" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+            <div id="chart-detail-filters" style="display:flex;flex-wrap:wrap;gap:6px;margin-left:auto;"></div>
         </div>
         <div style="padding: 1rem 1.25rem 0.5rem;">
             <div id="chart-detail">
@@ -891,7 +891,7 @@
                     toolbar: {
                         show: false
                     },
-                    fontFamily: "'IBM Plex Sans Thai', sans-serif",
+                    fontFamily: "'Sarabun', sans-serif",
                     animations: {
                         enabled: true,
                         speed: 600
@@ -937,7 +937,7 @@
                 legend: {
                     position: 'top',
                     fontSize: '12px',
-                    fontFamily: "'IBM Plex Sans Thai', sans-serif",
+                    fontFamily: "'Sarabun', sans-serif",
                     itemMargin: {
                         horizontal: 10
                     }
@@ -979,7 +979,7 @@
                             </div>`
                         ).join('');
 
-                        return `<div style="padding:10px 14px;font-family:'IBM Plex Sans Thai',sans-serif;min-width:210px;max-height:320px;overflow-y:auto;">
+                        return `<div style="padding:10px 14px;font-family:'Sarabun',sans-serif;min-width:210px;max-height:320px;overflow-y:auto;">
                             <div style="font-size:11px;font-weight:700;color:#9ca3af;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">${month}</div>
                             ${rows || '<div style="color:#9ca3af;font-size:11px;">\u0e44\u0e21\u0e48\u0e21\u0e35\u0e02\u0e49\u0e2d\u0e21\u0e39\u0e25</div>'}
                         </div>`;
@@ -1008,7 +1008,7 @@
                     toolbar: {
                         show: false
                     },
-                    fontFamily: "'IBM Plex Sans Thai', sans-serif",
+                    fontFamily: "'Sarabun', sans-serif",
                     animations: {
                         enabled: true,
                         speed: 500

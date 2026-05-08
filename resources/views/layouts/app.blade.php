@@ -8,9 +8,7 @@
     <title>@yield('title') — UPA</title>
 
     <!-- Fonts -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Icons -->
     <script src="https://kit.fontawesome.com/ce56e0f8fa.js" crossorigin="anonymous"></script>
@@ -29,7 +27,7 @@
 
         html,
         body {
-            font-family: 'Inter', 'Noto Sans Thai', sans-serif;
+            font-family: 'Sarabun', sans-serif;
             font-size: 14px;
             font-weight: 400;
             margin: 0;

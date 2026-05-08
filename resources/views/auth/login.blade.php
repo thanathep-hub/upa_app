@@ -8,7 +8,7 @@
     <link rel="manifest" href="{{ asset('manifest.json') }}">
     <title>เข้าสู่ระบบ - UPA</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -22,7 +22,7 @@
 
         html,
         body {
-            font-family: 'IBM Plex Sans Thai', sans-serif;
+            font-family: 'Sarabun', sans-serif;
             font-size: 15px;
             margin: 0;
             height: 100%;
@@ -117,7 +117,7 @@
             border: 1px solid #e2e8f0;
             border-radius: 10px;
             padding: 0.875rem 1rem 0.875rem 2.75rem;
-            font-family: 'IBM Plex Sans Thai', sans-serif;
+            font-family: 'Sarabun', sans-serif;
             font-size: 0.9375rem;
             font-weight: 400;
             color: #0f172a;
@@ -159,7 +159,7 @@
             border-radius: 10px;
             padding: 0.9375rem 1rem;
             color: #ffffff;
-            font-family: 'IBM Plex Sans Thai', sans-serif;
+            font-family: 'Sarabun', sans-serif;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;

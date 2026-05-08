@@ -45,7 +45,7 @@
      }
 
      .sidebar-logo-label {
-         font-family: 'IBM Plex Sans Thai', sans-serif;
+         font-family: 'Sarabun', sans-serif;
          font-size: 0.8125rem;
          font-weight: 700;
          color: #111827;
@@ -72,12 +72,12 @@
          text-transform: uppercase;
          color: #9ca3af;
          padding: 0.5rem 0.625rem 0.375rem;
-         font-family: 'IBM Plex Sans Thai', sans-serif;
+         font-family: 'Sarabun', sans-serif;
      }
 
      /* ── Sidebar links ── */
      a.sidebar-link {
-         font-family: 'IBM Plex Sans Thai', sans-serif;
+         font-family: 'Sarabun', sans-serif;
          font-weight: 500;
          font-size: 0.875rem;
          padding: 0.575rem 0.75rem;
