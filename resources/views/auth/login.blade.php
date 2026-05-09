@@ -8,8 +8,7 @@
     <link rel="manifest" href="{{ asset('manifest.json') }}">
     <title>เข้าสู่ระบบ - UPA</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
@@ -176,6 +175,90 @@
             transform: scale(0.99);
         }
 
+        .btn-login:disabled {
+            opacity: 0.75;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ── Spinner ── */
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ── Redirect modal ── */
+        .redirect-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(15, 23, 42, 0.45);
+            backdrop-filter: blur(4px);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .redirect-overlay.show {
+            display: flex;
+        }
+
+        .redirect-modal {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            max-width: 340px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(33, 30, 83, 0.18);
+            animation: modalIn 0.25s ease;
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(0.92) translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .redirect-modal .modal-spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid rgba(33, 30, 83, 0.12);
+            border-top-color: #211e53;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 1.25rem;
+        }
+
+        .redirect-modal .modal-title {
+            font-size: 1.0625rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 0.375rem;
+        }
+
+        .redirect-modal .modal-sub {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
         /* ── Helper link ── */
         .help-link {
             font-size: 0.9rem;
@@ -197,8 +280,8 @@
 
                 {{-- Header --}}
                 <div class="mb-4 text-center">
-                    <div class="login-card-title">เข้าสู่ระบบ UPA</div>
-                    <div class="login-card-sub">กรุณาลงชื่อเข้าใช้ด้วยรหัส ERP ของคุณ</div>
+                    <div class="login-card-title">UPA</div>
+                    <div class="login-card-sub">เข้าสู่ระบบด้วยรหัส ERP ของคุณ</div>
                 </div>
 
                 {{-- Error message --}}
@@ -208,7 +291,7 @@
                     </div>
                 @endif
 
-                <form method="POST" action="/login">
+                <form method="POST" action="/login" id="login-form">
                     @csrf
 
                     {{-- Username --}}
@@ -244,12 +327,15 @@
                     </div>
 
                     {{-- Submit --}}
-                    <button type="submit" class="btn-login mb-4">
-                        เข้าสู่ระบบ
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                        </svg>
+                    <button type="submit" class="btn-login mb-4" id="btn-login">
+                        <span id="btn-text">เข้าสู่ระบบ</span>
+                        <span id="btn-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                            </svg>
+                        </span>
+                        <span id="btn-spinner" class="spinner" style="display:none;"></span>
                     </button>
 
                     {{-- Help --}}
@@ -263,8 +349,37 @@
 
     </div>
 
+    {{-- Redirect modal --}}
+    <div class="redirect-overlay" id="redirect-overlay">
+        <div class="redirect-modal">
+            <div class="modal-spinner"></div>
+            <div class="modal-title">กำลังเข้าสู่ระบบ…</div>
+            <div class="modal-sub">กรุณารอสักครู่ ระบบกำลังพาคุณไปยังหน้าถัดไป</div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function() {
+            const btn = document.getElementById('btn-login');
+            const text = document.getElementById('btn-text');
+            const icon = document.getElementById('btn-icon');
+            const spinner = document.getElementById('btn-spinner');
+
+            // Button loading state
+            btn.disabled = true;
+            text.textContent = 'กำลังเข้าสู่ระบบ…';
+            icon.style.display = 'none';
+            spinner.style.display = 'inline-block';
+
+            // Show redirect modal after short delay
+            setTimeout(function() {
+                document.getElementById('redirect-overlay').classList.add('show');
+            }, 400);
+        });
     </script>
 </body>
 
